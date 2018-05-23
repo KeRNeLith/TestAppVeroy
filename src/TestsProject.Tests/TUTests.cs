@@ -12,5 +12,13 @@ namespace Tests
 			int b = 2;
             Assert.AreEqual(a, b);
         }
+
+        [Test]
+        public void TestFailMethod()
+        {
+            int a = 2;
+            int b = 12;
+            Assert.AreEqual(a, b);
+        }
     }
 }
