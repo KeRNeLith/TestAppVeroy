@@ -1,3 +1,3 @@
 # TestAppVeroy
 
-https://ci.appveyor.com/api/projects/status/github/TestAppVeroy?branch=master&svg=true
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/KeRNeLith/TestAppVeroy?branch=master&svg=true)](https://ci.appveyor.com/project/KeRNeLith/TestAppVeroy)
