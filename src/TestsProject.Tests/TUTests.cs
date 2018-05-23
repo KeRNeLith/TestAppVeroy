@@ -16,8 +16,8 @@ namespace Tests
         [Test]
         public void TestFailMethod()
         {
-            int a = 2;
-            int b = 12;
+            int a = 3;
+            int b = 3;
             Assert.AreEqual(a, b);
         }
     }
