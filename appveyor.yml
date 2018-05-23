@@ -1,7 +1,11 @@
 version: '{build}'
 image: Visual Studio 2017
 
-# Assembly infos
+# Setup
+install:
+  - cmd: ./generateSolution.bat
+
+# Assembly infos & csproj patching
 assembly_info:
   patch: true
   file: '**\\AssemblyInfo.*'
@@ -31,7 +35,6 @@ matrix:
 
 # Build
 before_build:
-  - cmd: ./generateSolution.bat
   - nuget restore
 
 build:
