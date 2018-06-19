@@ -39,3 +39,26 @@ before_build:
 
 build:
   verbosity: normal
+
+# Artifact
+artifacts:  
+  - path: .\artifacts\**\*.nupkg
+    name: NuGet
+
+# Deploy
+deploy:
+  - provider: NuGet
+    server: https://www.myget.org/F/kernelith-ci/api/v2/package
+    api_key:
+      secure: ANF+joC2B+NahxCFbLPOjNvEAo36F2F4QJu6zLwoIf2I9KwkxKyCSuNxDpLmJmtU
+    skip_symbols: true
+    on:
+      branch: master
+      appveyor_repo_tag: true
+  - provider: NuGet
+    api_key:
+      secure: H9AFeC6uNE88rUiZxmDQNt50bhQ0ilMCua/X9s1++dNB0wMHWrKY8xjfM/M2xFja
+    on:
+      branch: master
+      configuration: Release
+      appveyor_repo_tag: true
