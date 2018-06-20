@@ -46,7 +46,7 @@ namespace Tests.Sharpmake
             // Project settings
             conf.ProjectFileName = "[project.Name]";
             conf.ProjectPath = Path.Combine(@"[project.RootPath]", @"[project.Name]");
-            conf.TargetPath = Path.Combine(@"[project.TestsRootPath]", "bin", @"[project.Name]", @"[target.Optimization]");
+            conf.TargetPath = Path.Combine(@"[project.TestsRootPath]", "bin", "library", @"[target.Optimization]", @"[project.Name]");
 
             conf.Options.Add(Options.CSharp.LanguageVersion.CSharp7);
 

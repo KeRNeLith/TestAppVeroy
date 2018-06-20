@@ -42,7 +42,7 @@ build:
 
 # Artifact
 artifacts:  
-  - path: .\artifacts\**\*.nupkg
+  - path: .\bin\library\release\**\*.nupkg
     name: NuGet
 
 # Deploy
@@ -54,7 +54,7 @@ deploy:
     skip_symbols: true
     on:
       branch: master
-      appveyor_repo_tag: true
+      #appveyor_repo_tag: true
   - provider: NuGet
     api_key:
       secure: H9AFeC6uNE88rUiZxmDQNt50bhQ0ilMCua/X9s1++dNB0wMHWrKY8xjfM/M2xFja
