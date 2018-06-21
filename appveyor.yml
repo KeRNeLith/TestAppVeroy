@@ -54,7 +54,7 @@ build:
 
 # Artifact
 artifacts:  
-  - path: .\bin\library\release\**\*.nupkg
+  - path: '**\bin\Release\*.nupkg'
     name: NuGet
 
 # Deploy
