@@ -17,10 +17,6 @@ init:
         $env:Build_Version = "$($env:APPVEYOR_BUILD_VERSION)";
     }
 
-# Installation
-install:
-  - cmd: ./generateSolution.bat
-
 # Assembly infos & csproj patching
 assembly_info:
   patch: true
@@ -28,7 +24,6 @@ assembly_info:
   assembly_version: '$(Build_Version)'
   assembly_file_version: '$(Build_Version)'
   assembly_informational_version: '$(Build_Version)'
-
 
 dotnet_csproj:
   patch: true
@@ -69,13 +64,13 @@ deploy:
     api_key:
       secure: ANF+joC2B+NahxCFbLPOjNvEAo36F2F4QJu6zLwoIf2I9KwkxKyCSuNxDpLmJmtU
     skip_symbols: true
-    on:
-      branch: master
+#    on:
+#      branch: master
       #appveyor_repo_tag: true
-  - provider: NuGet
-    api_key:
-      secure: H9AFeC6uNE88rUiZxmDQNt50bhQ0ilMCua/X9s1++dNB0wMHWrKY8xjfM/M2xFja
-    on:
-      branch: master
-      configuration: Release
-      appveyor_repo_tag: true
+#  - provider: NuGet
+#    api_key:
+#      secure: H9AFeC6uNE88rUiZxmDQNt50bhQ0ilMCua/X9s1++dNB0wMHWrKY8xjfM/M2xFja
+#    on:
+#      branch: master
+#      configuration: Release
+#      appveyor_repo_tag: true
