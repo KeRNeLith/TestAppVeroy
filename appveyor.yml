@@ -70,7 +70,7 @@ deploy:
     api_key:
       secure: H9AFeC6uNE88rUiZxmDQNt50bhQ0ilMCua/X9s1++dNB0wMHWrKY8xjfM/M2xFja
     on:
-#      branch: master
+      branch: master
       configuration: Release
 #      appveyor_repo_tag: true
   - provider: GitHub
@@ -83,6 +83,6 @@ deploy:
     auth_token:
       secure: fLTTmcGOM55kigJC4vErpObFmybCtzQtwb4QN55BTNq3GDGaOCoHDoIPxexzO59d
     on:
-      #branch: master
+      branch: master
       configuration: Release
       #appveyor_repo_tag: true
