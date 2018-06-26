@@ -72,8 +72,9 @@ deploy:
     on:
       branch: master
       configuration: Release
-#      APPVEYOR_REPO_TAG: true
+#      appveyor_repo_tag: true
   - provider: GitHub
+    tag: '$(Build_Version)'
     release: '${Build_Version}'
     description: 'Version ${Build_Version}'
     artifact: /.*\.nupkg/
@@ -85,4 +86,4 @@ deploy:
     on:
       branch: master
       configuration: Release
-      APPVEYOR_REPO_TAG: true
+      appveyor_repo_tag: true
