@@ -5,6 +5,7 @@
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	<PackageId>TestsProject</PackageId>
 	<Title>TestsProject2</Title>
+	<IsPackable>true</IsPackable>
 	<Version>1.0.0</Version>
 	<Copyright>Copyright © 2018</Copyright>
 	<Description>Test description.</Description>
