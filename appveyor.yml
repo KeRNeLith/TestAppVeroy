@@ -73,3 +73,16 @@ deploy:
 #      branch: master
       configuration: Release
 #      appveyor_repo_tag: true
+  - provider: GitHub
+    artifact: /.*\.nupkg/
+    release: '${Build_Version}'
+    description: 'Version ${Build_Version}'
+    force_update: true
+    draft: false
+    prerelease: false
+    auth_token:
+      secure: fLTTmcGOM55kigJC4vErpObFmybCtzQtwb4QN55BTNq3GDGaOCoHDoIPxexzO59d
+    on:
+      #branch: master
+      configuration: Release
+      #appveyor_repo_tag: true
