@@ -72,7 +72,7 @@ deploy:
     on:
       branch: master
       configuration: Release
-#      appveyor_repo_tag: true
+#      APPVEYOR_REPO_TAG: true
   - provider: GitHub
     tag: '$(Build_Version)'
     release: '${Build_Version}'
@@ -86,4 +86,4 @@ deploy:
     on:
       branch: master
       configuration: Release
-      appveyor_repo_tag: true
+      APPVEYOR_REPO_TAG: true
