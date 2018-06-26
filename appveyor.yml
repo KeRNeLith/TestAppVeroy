@@ -59,7 +59,7 @@ artifacts:
 
 # Deploy
 deploy:
-  - provider: NuGet
+  - provider: MyGet
     server: https://www.myget.org/F/kernelith-ci/api/v2/package
     api_key:
       secure: ANF+joC2B+NahxCFbLPOjNvEAo36F2F4QJu6zLwoIf2I9KwkxKyCSuNxDpLmJmtU
@@ -72,7 +72,7 @@ deploy:
     on:
       branch: master
       configuration: Release
-#      appveyor_repo_tag: true
+#      APPVEYOR_REPO_TAG: true
   - provider: GitHub
     release: '${Build_Version}'
     description: 'Version ${Build_Version}'
@@ -85,4 +85,4 @@ deploy:
     on:
       branch: master
       configuration: Release
-      appveyor_repo_tag: true
+      APPVEYOR_REPO_TAG: true
