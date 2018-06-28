@@ -74,15 +74,15 @@ deploy:
       configuration: Release
 #      APPVEYOR_REPO_TAG: true
   - provider: GitHub
+    auth_token:
+      secure: fLTTmcGOM55kigJC4vErpObFmybCtzQtwb4QN55BTNq3GDGaOCoHDoIPxexzO59d
     tag: '$(Build_Version)'
     release: '${Build_Version}'
     description: 'Version ${Build_Version}'
-    artifact: /.*\.nupkg/
-    force_update: true
+    artifact: NuGet
     draft: false
     prerelease: false
-    auth_token:
-      secure: fLTTmcGOM55kigJC4vErpObFmybCtzQtwb4QN55BTNq3GDGaOCoHDoIPxexzO59d
+    force_update: true
     on:
       branch: master
       configuration: Release
