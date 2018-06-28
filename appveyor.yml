@@ -76,7 +76,6 @@ deploy:
   - provider: GitHub
     auth_token:
       secure: fLTTmcGOM55kigJC4vErpObFmybCtzQtwb4QN55BTNq3GDGaOCoHDoIPxexzO59d
-    tag: '$(Build_Version)'
     release: '${Build_Version}'
     description: 'Version ${Build_Version}'
     artifact: NuGet
