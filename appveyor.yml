@@ -27,6 +27,10 @@ init:
 install:
 # Chocolatey SonarQube
   - cinst msbuild-sonarqube-runner
+# NuGet packages for coverage
+  - nuget install NUnit3TestAdapter 3.10.0
+  - nuget install OpenCover 4.6.519
+  - nuget install coveralls.io 1.4.2
 
 # Assembly infos & csproj patching
 assembly_info:
@@ -64,9 +68,9 @@ build:
   verbosity: normal
 
 build_script:
-  - ps: MSBuild.SonarQube.Runner.exe begin /k:"tests_project" /d:sonar.organization="kernelith-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="$env:SONARQUBE_TOKEN"
+  - ps: SonarScanner.MSBuild.exe begin /k:"tests_project" /d:sonar.organization="kernelith-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="$env:SONARQUBE_TOKEN"
   - msbuild
-  - ps: MSBuild.SonarQube.Runner.exe end /d:"sonar.login=$env:SONARQUBE_TOKEN"
+  - ps: SonarScanner.MSBuild.exe end /d:"sonar.login=$env:SONARQUBE_TOKEN"
 
 after_test: 
 # Coverage
