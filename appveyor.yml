@@ -79,8 +79,8 @@ before_test:
 
 after_test: 
 # Coverage
-  - ps: .\tools\OpenCover.$env:OpenCoverVersion\tools\OpenCover.Console.exe -register:user -filter:"+[*]* -[*.Tests*]*" -target:".\tools\NUnit.ConsoleRunner.$env:NUnitConsoleVersion\tools\nunit3-console.exe" -output:coverage.xml
-  - ps: .\tools\coveralls.io.$env:CoverallsVersion\tools\coveralls.net.exe --opencover coverage.xml -r $env:COVERALLS_REPO_TOKEN
+  - ps: .\tools\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[*]* -[*.Test*]*" -target:".\tools\NUnit.ConsoleRunner.3.8.0\tools\nunit3-console.exe" -output:coverage.xml
+  - ps: .\tools\coveralls.io.1.4.2\tools\coveralls.net.exe --opencover coverage.xml -r $env:COVERALLS_REPO_TOKEN
 
 # Artifact
 artifacts:  
