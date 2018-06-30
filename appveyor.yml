@@ -8,6 +8,9 @@ pull_requests:
 environment:
   SONARQUBE_TOKEN:
     secure: MTBDDF4aTiFIZFcSrOBkcmtDQnZiHx7R+Zozs8FXmpEXHt0ckiPqET8o7vj6LMBN
+  NUnitConsoleVersion: 3.8.0
+  OpenCoverVersion: 4.6.519
+  CoverallsVersion: 1.4.2
   COVERALLS_REPO_TOKEN:
     secure: v31ShF3jpWCFELwt8iDTmUiKNB/5wZWMqy1EsCK/8LnT73kMlPjiK0ZL1rqIMjeo
 
@@ -28,9 +31,9 @@ install:
 # Chocolatey SonarQube
   - cinst msbuild-sonarqube-runner
 # NuGet packages for coverage
-  - nuget install NUnit.Console 3.8.0 -o .\additionalNugets
-  - nuget install OpenCover 4.6.519 -o .\additionalNugets
-  - nuget install coveralls.io 1.4.2 -o .\additionalNugets
+  - ps: nuget install NUnit.Console -Version $env:NUnitConsoleVersion -o .\additionalNugets
+  - ps: nuget install OpenCover -Version $env:OpenCoverVersion -o .\additionalNugets
+  - ps: nuget install coveralls.io -Version $env:CoverallsVersion -o .\additionalNugets
 
 # Assembly infos & csproj patching
 assembly_info:
@@ -74,8 +77,8 @@ build_script:
 
 after_test: 
 # Coverage
-  - ps: additionalNugets\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[*]* -[test*]*" -target:"additionalNugets\NUnit.ConsoleRunner.3.8.0\tools\nunit3-console.exe" -output:coverage.xml
-  - ps: additionalNugets\coveralls.io.1.4.2\tools\coveralls.net.exe --opencover coverage.xml -r $env:COVERALLS_REPO_TOKEN
+  - ps: additionalNugets\OpenCover.$env:OpenCoverVersion\tools\OpenCover.Console.exe -register:user -filter:"+[*]* -[test*]*" -target:"additionalNugets\NUnit.ConsoleRunner.$env:NUnitConsoleVersion\tools\nunit3-console.exe" -output:coverage.xml
+  - ps: additionalNugets\coveralls.io.$env:CoverallsVersion\tools\coveralls.net.exe --opencover coverage.xml -r $env:COVERALLS_REPO_TOKEN
 
 # Artifact
 artifacts:  
