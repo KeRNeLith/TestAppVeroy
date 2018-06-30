@@ -8,6 +8,8 @@ pull_requests:
 environment:
   SONARQUBE_TOKEN:
     secure: MTBDDF4aTiFIZFcSrOBkcmtDQnZiHx7R+Zozs8FXmpEXHt0ckiPqET8o7vj6LMBN
+  COVERALLS_REPO_TOKEN:
+    secure: v31ShF3jpWCFELwt8iDTmUiKNB/5wZWMqy1EsCK/8LnT73kMlPjiK0ZL1rqIMjeo
 
 # Setup build version
 init:
@@ -65,6 +67,11 @@ build_script:
   - ps: MSBuild.SonarQube.Runner.exe begin /k:"tests_project" /d:sonar.organization="kernelith-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="$env:SONARQUBE_TOKEN"
   - msbuild
   - ps: MSBuild.SonarQube.Runner.exe end /d:"sonar.login=$env:SONARQUBE_TOKEN"
+
+after_test: 
+# Coverage
+  - ps: packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[*]* -[test*]*" -target:"packages\NUnit.ConsoleRunner.3.8.0\tools\nunit3-console.exe" -output:coverage.xml
+  - ps: packages\coveralls.io.1.4.2\tools\coveralls.net.exe --opencover coverage.xml -r $env:COVERALLS_REPO_TOKEN
 
 # Artifact
 artifacts:  
