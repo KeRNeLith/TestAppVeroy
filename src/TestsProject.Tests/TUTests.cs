@@ -20,5 +20,13 @@ namespace Tests
             int b = 3;
             Assert.AreEqual(a, b);
         }
+
+        [Test]
+        public void TestLib()
+        {
+            TestClass testObj = new TestClass { Test = "str" };
+            Assert.AreEqual("str", testObj.Test);
+        }
+
     }
 }
