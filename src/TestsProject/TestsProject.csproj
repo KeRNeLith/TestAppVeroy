@@ -4,6 +4,7 @@
     <TargetFrameworks>netstandard1.0;net452</TargetFrameworks>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	<PackageId>TestsProject</PackageId>
+	<DebugType>Full</DebugType>
 	<IsPackable>true</IsPackable>
 	<Title>TestsProject</Title>
 	<Version>1.0.0</Version>
