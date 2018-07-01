@@ -10,7 +10,7 @@ environment:
     secure: MTBDDF4aTiFIZFcSrOBkcmtDQnZiHx7R+Zozs8FXmpEXHt0ckiPqET8o7vj6LMBN
   NUnitConsoleVersion: 3.8.0
   OpenCoverVersion: 4.6.519
-  CoverallsVersion: 1.4.2
+  CoverallsVersion: 1.0.0
   COVERALLS_REPO_TOKEN:
     secure: v31ShF3jpWCFELwt8iDTmUiKNB/5wZWMqy1EsCK/8LnT73kMlPjiK0ZL1rqIMjeo
 
@@ -73,15 +73,24 @@ before_test:
 # NuGet packages for coverage
   - ps: nuget install NUnit.Console -Version $env:NUnitConsoleVersion -OutputDirectory tools
   - ps: nuget install OpenCover -Version $env:OpenCoverVersion -OutputDirectory tools
-  - ps: nuget install coveralls.io -Version $env:CoverallsVersion -OutputDirectory tools
-  - ps: dotnet tool install --tool-path tools --version 1.0.0 coveralls.net
+#  - ps: nuget install coveralls.io -Version $env:CoverallsVersion -OutputDirectory tools
+# Dot net tool for coverage
+  - ps: dotnet tool install --tool-path tools --version $env:CoverallsVersion coveralls.net
 
 after_test: 
 # Coverage
 #  - ps: tools\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[*]* -[*.Test*]*" -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:"test --framework netcoreapp2.0" -log:Warn -output:coverage.xml
+# Setup variables
+  - ps: $opencover = (Resolve-Path "tools\OpenCover.*\tools\OpenCover.Console.exe").ToString()
+  - ps: $nunitConsole = (Resolve-Path "tools\NUnit.ConsoleRunner.*\tools\nunit3-console.exe").ToString()
+  - ps: $coveralls = (Resolve-Path "tools\csmacnz.Coveralls.exe").ToString()
+
   - ps: $testAssemblies = (ls src\*.Tests\bin\$env:Configuration\net45\*Tests.dll | % FullName | sort-object -Unique)
-  - ps: echo $testAssemblies
-  - ps: tools\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[*]* -[*.Test*]*" -target:"tools\NUnit.ConsoleRunner.3.8.0\tools\nunit3-console.exe" -targetargs:"$testAssemblies" -log:Warn -output:coverage.xml
+# Generate coverage report
+  - ps: >-
+      & $opencover -register:user -filter:"+[*]* -[*.Test*]*" -target:"$nunitConsole" -targetargs:"$testAssemblies" -log:Warn -output:coverage.xml
+  - ps: >-
+      & $coveralls --opencover -i coverage.xml --repoToken $env:COVERALLS_REPO_TOKEN --useRelativePaths --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_BUILD_NUMBER --serviceName appveyor
 #  - ps: tools\coveralls.io.1.4.2\tools\coveralls.net.exe --opencover coverage.xml -r $env:COVERALLS_REPO_TOKEN
 
 # Artifact
