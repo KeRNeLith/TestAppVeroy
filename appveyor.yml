@@ -65,33 +65,30 @@ build:
   verbosity: normal
 
 build_script:
-  - ps: SonarScanner.MSBuild.exe begin /k:"tests_project" /d:sonar.organization="kernelith-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="$env:SONARQUBE_TOKEN"
+  - ps: SonarScanner.MSBuild.exe begin /k:"tests_project" /d:sonar.organization="kernelith-github" /d:sonar.host.url="https://sonarcloud.io" /d:"sonar.branch.name=$env:APPVEYOR_REPO_BRANCH" /d:sonar.cs.opencover.reportsPaths="coverage.xml" /d:sonar.login="$env:SONARQUBE_TOKEN"
   - msbuild
-  - ps: SonarScanner.MSBuild.exe end /d:"sonar.login=$env:SONARQUBE_TOKEN"
 
 before_test:
 # NuGet packages for coverage
   - ps: nuget install NUnit.Console -Version $env:NUnitConsoleVersion -OutputDirectory tools
   - ps: nuget install OpenCover -Version $env:OpenCoverVersion -OutputDirectory tools
-#  - ps: nuget install coveralls.io -Version $env:CoverallsVersion -OutputDirectory tools
 # Dot net tool for coverage
   - ps: dotnet tool install --tool-path tools --version $env:CoverallsVersion coveralls.net
 
 after_test: 
 # Coverage
-#  - ps: tools\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[*]* -[*.Test*]*" -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:"test --framework netcoreapp2.0" -log:Warn -output:coverage.xml
 # Setup variables
   - ps: $opencover = (Resolve-Path "tools\OpenCover.*\tools\OpenCover.Console.exe").ToString()
   - ps: $nunitConsole = (Resolve-Path "tools\NUnit.ConsoleRunner.*\tools\nunit3-console.exe").ToString()
   - ps: $coveralls = (Resolve-Path "tools\csmacnz.Coveralls.exe").ToString()
-
+# Assemblies to test (only consider .NET Framework 4.5, because if taking those from target netcoreapp1.0 coverage fails)
   - ps: $testAssemblies = (ls src\*.Tests\bin\$env:Configuration\net45\*Tests.dll | % FullName | sort-object -Unique)
 # Generate coverage report
   - ps: >-
       & $opencover -register:user -filter:"+[*]* -[*.Test*]*" -target:"$nunitConsole" -targetargs:"$testAssemblies" -log:Warn -output:coverage.xml
+  - ps: SonarScanner.MSBuild.exe end /d:"sonar.login=$env:SONARQUBE_TOKEN"
   - ps: >-
       & $coveralls --opencover -i coverage.xml --repoToken $env:COVERALLS_REPO_TOKEN --useRelativePaths --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_BUILD_NUMBER --serviceName appveyor
-#  - ps: tools\coveralls.io.1.4.2\tools\coveralls.net.exe --opencover coverage.xml -r $env:COVERALLS_REPO_TOKEN
 
 # Artifact
 artifacts:  
