@@ -5,6 +5,9 @@
     /// </summary>
     public class TestClass
     {
+        /// <summary>
+        /// Test property.
+        /// </summary>
         public string Test { get; set; }
 
 #if NET35
