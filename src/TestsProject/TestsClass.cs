@@ -1,4 +1,6 @@
-﻿namespace Tests
+﻿using JetBrains.Annotations;
+
+namespace Tests
 {
     /// <summary>
     /// Test class comment.
@@ -41,6 +43,26 @@
                 int b = 42;
                 return a / b;
             }
+        }
+
+        [CanBeNull]
+        public string NullString
+        {
+            get { return Test; }
+        }
+
+        [NotNull]
+        public string NotNullString
+        {
+            get => "Hello";
+        }
+
+        [CanBeNull]
+        public string TestMethod([NotNull] string p)
+        {
+            if (p == "Hello")
+                return "World";
+            return null;
         }
 
 #if NET35
