@@ -65,7 +65,7 @@ build:
   verbosity: normal
 
 build_script:
-  - ps: SonarScanner.MSBuild.exe begin /k:"tests_project" /d:sonar.organization="kernelith-github" /d:sonar.host.url="https://sonarcloud.io" /d:"sonar.branch.name=$env:APPVEYOR_REPO_BRANCH" /d:sonar.cs.opencover.reportsPaths="coverage.xml" /d:sonar.login="$env:SONARQUBE_TOKEN"
+  - ps: SonarScanner.MSBuild.exe begin /k:"tests_project" /d:sonar.organization="kernelith-github" /d:sonar.host.url="https://sonarcloud.io" /d:"sonar.branch.name=$env:APPVEYOR_REPO_BRANCH" /d:sonar.cs.opencover.reportsPaths="coverage.xml" /d:sonar.login="$env:SONARQUBE_TOKEN" /d:sonar.coverage.exclusions=Annotations.cs
   - msbuild
 
 before_test:
