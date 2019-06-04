@@ -13,6 +13,8 @@ environment:
   CoverallsVersion: 1.0.0
   COVERALLS_REPO_TOKEN:
     secure: v31ShF3jpWCFELwt8iDTmUiKNB/5wZWMqy1EsCK/8LnT73kMlPjiK0ZL1rqIMjeo
+  GITHUB_ACCESS_TOKEN:
+    secure: fLTTmcGOM55kigJC4vErpObFmybCtzQtwb4QN55BTNq3GDGaOCoHDoIPxexzO59d
 
 # Setup build version
 init:
@@ -65,7 +67,7 @@ build:
   verbosity: normal
 
 build_script:
-  - ps: SonarScanner.MSBuild.exe begin /k:"tests_project" /d:sonar.organization="kernelith-github" /d:sonar.host.url="https://sonarcloud.io" /d:"sonar.branch.name=$env:APPVEYOR_REPO_BRANCH" /d:sonar.cs.opencover.reportsPaths="coverage.xml" /d:sonar.login="$env:SONARQUBE_TOKEN" /d:sonar.coverage.exclusions=Annotations.cs
+  - ps: SonarScanner.MSBuild.exe begin /k:"tests_project" /o:"kernelith-github" /d:sonar.host.url="https://sonarcloud.io" /d:"sonar.branch.name=$env:APPVEYOR_REPO_BRANCH" /d:sonar.cs.opencover.reportsPaths="coverage.xml" /d:sonar.login="$env:SONARQUBE_TOKEN" /d:sonar.coverage.exclusions=Annotations.cs
   - msbuild
 
 before_test:
@@ -111,9 +113,9 @@ deploy:
       branch: master
       configuration: Release
 #      APPVEYOR_REPO_TAG: true
-  - provider: GitHub
-    auth_token:
-      secure: fLTTmcGOM55kigJC4vErpObFmybCtzQtwb4QN55BTNq3GDGaOCoHDoIPxexzO59d
+  - provider: GitHub    
+    auth_token: 
+      secure: $env:GITHUB_ACCESS_TOKEN
     release: '${Build_Version}'
     description: 'Version ${Build_Version}'
     artifact: NuGet
@@ -123,4 +125,4 @@ deploy:
     on:
       branch: master
       configuration: Release
-      APPVEYOR_REPO_TAG: true
+      #APPVEYOR_REPO_TAG: true
