@@ -1,5 +1,5 @@
 version: '0.0.{build}'
-image: Previous Visual Studio 2017
+image: Visual Studio 2017
 
 # Setup
 pull_requests:
@@ -89,7 +89,7 @@ after_test:
   - ps: $testAssemblies = (ls src\*.Tests\bin\$env:Configuration\net45\*Tests.dll | % FullName | sort-object -Unique)
 # Generate coverage report
   - ps: >-
-      & $opencover -register:user -filter:"+[*]* -[*.Test*]* -[*]JetBrains.Annotations.*" -target:"$nunitConsole" -targetargs:"$testAssemblies" -log:Warn -output:coverage.xml
+      & $opencover -register:Path64 -filter:"+[*]* -[*.Test*]* -[*]JetBrains.Annotations.*" -target:"$nunitConsole" -targetargs:"$testAssemblies" -log:Warn -output:coverage.xml
   - ps: >-
       & $sonarscanner end /d:"sonar.login=$env:SONARQUBE_TOKEN"
   - ps: >-
