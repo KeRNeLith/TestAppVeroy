@@ -1,10 +1,30 @@
-﻿using JetBrains.Annotations;
+﻿using System;
+//using System.Runtime.Serialization;
+using JetBrains.Annotations;
 
 namespace Tests
 {
+//    /// <summary>
+//    /// Test class2 comment.
+//    /// </summary>
+//#if NET45
+//    [Serializable]
+//#endif
+//    public class TestClass2 : ISerializable
+//    {
+//        /// <inheritdoc />
+//        public void GetObjectData(SerializationInfo info, StreamingContext context)
+//        {
+//            throw new NotImplementedException();
+//        }
+//    }
+
     /// <summary>
     /// Test class comment.
     /// </summary>
+#if NET45
+    [Serializable]
+#endif
     public class TestClass
     {
         /// <summary>
