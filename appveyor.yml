@@ -54,7 +54,7 @@ platform:
   - Any CPU
 
 configuration:
-  - Debug
+#  - Debug
   - Release
 
 matrix:
@@ -103,6 +103,20 @@ after_test:
 artifacts:  
   - path: '**\bin\Release\*.nupkg'
     name: NuGet
+
+deploy:
+  - provider: NuGet
+    server: https://www.myget.org/F/kernelith-ci/api/v2/package
+    api_key:
+      secure: ANF+joC2B+NahxCFbLPOjNvEAo36F2F4QJu6zLwoIf2I9KwkxKyCSuNxDpLmJmtU
+    skip_symbols: true
+    on:
+      configuration: Release
+  - provider: NuGet
+    server: https://nuget.pkg.github.com/KeRNeLith/index.json
+    username: KeRNeLith
+    api_key:
+      secure: 6N37NtnuKSzKQXlPOCtPSFJGOvJUdJjPK8LcuWx2PjHs2WVdngenZvYixk6br72b
 
 # Deploy
 # deploy:
