@@ -1,3 +1,4 @@
+#pragma warning disable 1591
 /* MIT License
 
 Copyright (c) 2016 JetBrains http://www.jetbrains.com

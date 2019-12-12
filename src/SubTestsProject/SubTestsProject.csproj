@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net35;net40;net45;net452;netstandard1.0;netstandard2.0;netcoreapp1.0;netcoreapp2.0</TargetFrameworks>
+    <!-- <TargetFrameworks>net45;netstandard1.1</TargetFrameworks> -->
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<PackageId>SubTestsProject</PackageId>
+	<IsPackable>true</IsPackable>
+	
+	<PublishRepositoryUrl>true</PublishRepositoryUrl>
+	<RootNamespace>SubTests</RootNamespace>
+	<AssemblyName>SubTestsProject</AssemblyName>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	<!-- Include PDB files in NuGet for Source Link because symbolsource.org does not support portable PDBs -->
+	<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+
+	
+	<Title>SubTestsProject</Title>
+	<Version>1.0.0</Version>
+	<Copyright>Copyright © 2019</Copyright>
+	<Description>Test description.</Description>
+	<Authors>Alexandre Rabérin</Authors>
+	<Owners>Alexandre Rabérin</Owners>
+	<Company>Alexandre Rabérin</Company>
+	<PackageTags>Tests Personal</PackageTags>
+	<AssemblyVersion>1.0.0</AssemblyVersion>
+	<FileVersion>1.0.0</FileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="2018.2.1" PrivateAssets="All" />
+	<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-63127-02" PrivateAssets="All" />
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DefineConstants>JETBRAINS_ANNOTATIONS</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TestsProject\TestsProject.csproj" />
+  </ItemGroup>
+</Project>
