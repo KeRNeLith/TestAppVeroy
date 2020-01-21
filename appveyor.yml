@@ -33,17 +33,25 @@ init:
     if ($env:APPVEYOR_REPO_TAG -eq "true")
     {
         $env:Build_Version = "$($env:APPVEYOR_REPO_TAG_NAME.Replace('v', ''))";
+        $env:Build_Assembly_Version = $env:Build_Version;
     }
     else
     {
         $env:Build_Version = "$($env:APPVEYOR_BUILD_VERSION)";
+        $env:Build_Assembly_Version = "$env:Build_Version" -replace "\-.*","";
+        $env:IsFullIntegrationBuild = "$env:APPVEYOR_PULL_REQUEST_NUMBER" -eq "" -And $env:Configuration -eq "Release";
     }
+    
+    "Build_Version: $env:Build_Version";
+    "Build_Assembly_Version: $env:Build_Assembly_Version";
+    "Integ build: $env:IsFullIntegrationBuild";
+
 
 # Assembly infos & csproj patching
 assembly_info:
   patch: true
   file: '**\\AssemblyInfo.*'
-  assembly_version: '$(Build_Version)'
+  assembly_version: '$(Build_Assembly_Version)'
   assembly_file_version: '$(Build_Version)'
   assembly_informational_version: '$(Build_Version)'
 
@@ -52,7 +60,7 @@ dotnet_csproj:
   file: '**\*.csproj'
   version: '$(Build_Version)'
   package_version: '$(Build_Version)'
-  assembly_version: '$(Build_Version)'
+  assembly_version: '$(Build_Assembly_Version)'
   file_version: '$(Build_Version)'
   informational_version: '$(Build_Version)'
 
@@ -80,7 +88,10 @@ build:
 
 build_script:
   - ps: >-
-      & $sonarscanner begin /k:"tests_project" /o:"kernelith-github" /d:sonar.host.url="https://sonarcloud.io" /d:"sonar.branch.name=$env:APPVEYOR_REPO_BRANCH" /d:sonar.cs.opencover.reportsPaths="coverage.xml" /d:sonar.login="$env:SONARQUBE_TOKEN" /d:sonar.coverage.exclusions=Annotations.cs
+    if ($env:IsFullIntegrationBuild)
+    {
+       & $sonarscanner begin /k:"tests_project" /o:"kernelith-github" /d:sonar.host.url="https://sonarcloud.io" /d:"sonar.branch.name=$env:APPVEYOR_REPO_BRANCH" /d:sonar.cs.opencover.reportsPaths="coverage.xml" /d:sonar.login="$env:SONARQUBE_TOKEN" /d:sonar.coverage.exclusions=Annotations.cs
+    }
   - msbuild
 
 before_test:
