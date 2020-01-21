@@ -12,4 +12,4 @@
 [![.NET Core](https://img.shields.io/badge/.NET%20Core-%3E%3D%202.0-blue.svg)](#)
 [![.NET Core](https://img.shields.io/badge/.NET%20Core-%3E%3D%202.0-green.svg)](#)
 
-Some changes
+Some changes 2
