@@ -2,6 +2,9 @@ version: '0.0.{build}'
 image: Visual Studio 2017
 
 # Setup
+nuget:
+  disable_publish_on_pr: true
+
 pull_requests:
   do_not_increment_build_number: true
 
@@ -23,6 +26,10 @@ environment:
 # Setup build version
 init:
 - ps: >-
+    "APPVEYOR_BUILD_ID: $env:APPVEYOR_BUILD_ID";
+    "APPVEYOR_BUILD_VERSION: $env:APPVEYOR_BUILD_VERSION";
+    "APPVEYOR_PULL_REQUEST_NUMBER: $env:APPVEYOR_PULL_REQUEST_NUMBER ";
+    
     if ($env:APPVEYOR_REPO_TAG -eq "true")
     {
         $env:Build_Version = "$($env:APPVEYOR_REPO_TAG_NAME.Replace('v', ''))";
@@ -112,11 +119,11 @@ deploy:
     skip_symbols: true
     on:
       configuration: Release
-  - provider: NuGet
-    server: https://nuget.pkg.github.com/KeRNeLith/index.json
-    username: KeRNeLith
-    api_key:
-      secure: 6N37NtnuKSzKQXlPOCtPSFJGOvJUdJjPK8LcuWx2PjHs2WVdngenZvYixk6br72b
+  # - provider: NuGet
+    # server: https://nuget.pkg.github.com/KeRNeLith/index.json
+    # username: KeRNeLith
+    # api_key:
+      # secure: 6N37NtnuKSzKQXlPOCtPSFJGOvJUdJjPK8LcuWx2PjHs2WVdngenZvYixk6br72b
 
 # Deploy
 # deploy:
