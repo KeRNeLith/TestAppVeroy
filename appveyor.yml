@@ -101,7 +101,7 @@ after_test:
 
 # Artifact
 artifacts:  
-  - path: '**\bin\Release\*.nupkg'
+  - path: '**\bin\Release\SubTestsProject*.nupkg'
     name: NuGet
 
 deploy:
@@ -112,11 +112,11 @@ deploy:
     skip_symbols: true
     on:
       configuration: Release
-  - provider: NuGet
-    server: https://nuget.pkg.github.com/KeRNeLith/index.json
-    username: KeRNeLith
-    api_key:
-      secure: 6N37NtnuKSzKQXlPOCtPSFJGOvJUdJjPK8LcuWx2PjHs2WVdngenZvYixk6br72b
+  # - provider: NuGet
+    # server: https://nuget.pkg.github.com/KeRNeLith/index.json
+    # username: KeRNeLith
+    # api_key:
+      # secure: 6N37NtnuKSzKQXlPOCtPSFJGOvJUdJjPK8LcuWx2PjHs2WVdngenZvYixk6br72b
 
 # Deploy
 # deploy:
