@@ -134,7 +134,7 @@ test_script:
   #- ps: $nunitConsole = (Resolve-Path "tools\NUnit.ConsoleRunner.*\tools\nunit3-console.exe").ToString()
   - ps: $coveralls = (Resolve-Path "tools\csmacnz.Coveralls.exe").ToString()
 # Assemblies to test (only consider .NET Framework 4.5, because if taking those from target netcoreapp1.0 coverage fails)
-  - ps: $testAssemblies = (ls src\*.Tests\bin\$env:Configuration\net45\*Tests.dll | % FullName | sort-object -Unique)
+  - ps: $testAssemblies = (ls src\*.Tests\bin\$env:Configuration\*\*Tests.dll | % FullName | sort-object -Unique)
 # Generate coverage report
   - ps: >-
       & $opencover -register:Path64 -filter:"+[*]* -[*.Test*]* -[*]JetBrains.Annotations.*" -target:"$nunitConsole" -targetargs:"$testAssemblies --result=\`"TestResult.xml\`" --result=\`"TestResultAppVeyor.xml;format=AppVeyor\`"" -log:Warn -output:coverage.xml
@@ -146,8 +146,8 @@ test_script:
 #  - ps: >-
 #      & $coveralls --opencover -i coverage.xml --repoToken $env:COVERALLS_REPO_TOKEN --useRelativePaths --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_BUILD_NUMBER --serviceName appveyor
 
-on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+#on_finish:
+#  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 # Artifact
 artifacts:  
