@@ -3,7 +3,7 @@
 namespace Tests
 {
     [TestFixture]
-    internal class TUTests
+    internal class TUTests : TUBase
     {
         [Test]
         public void TestMethod()
@@ -13,13 +13,13 @@ namespace Tests
             Assert.AreEqual(a, b);
         }
 
-        [Test]
-        public void TestFailFixedMethod()
-        {
-            int a = 3;
-            int b = 3;
-            Assert.AreEqual(a, b);
-        }
+        //[Test]
+        //public void TestFailFixedMethod()
+        //{
+        //    int a = 3;
+        //    int b = 3;
+        //    Assert.AreEqual(a, b);
+        //}
 
         [Test]
         public void TestLib()
@@ -27,6 +27,5 @@ namespace Tests
             TestClass testObj = new TestClass { Test = "str" };
             Assert.AreEqual("str", testObj.Test);
         }
-
     }
 }
