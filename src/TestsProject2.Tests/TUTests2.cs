@@ -10,7 +10,7 @@ namespace Tests2
         public void TestLib2()
         {
             TestClass testObj = new TestClass();
-            Assert.AreEqual(527, testObj.TestMethod());
+            Assert.AreEqual(528, testObj.TestMethod());
         }
     }
 }
