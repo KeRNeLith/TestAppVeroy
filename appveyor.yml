@@ -15,7 +15,7 @@ branches:
 environment:
   SONARQUBE_TOKEN:
     secure: MTBDDF4aTiFIZFcSrOBkcmtDQnZiHx7R+Zozs8FXmpEXHt0ckiPqET8o7vj6LMBN
-  NUnitConsoleVersion: 3.8.0
+  #NUnitConsoleVersion: 3.8.0
   OpenCoverVersion: 4.6.519
   CoverallsVersion: 1.0.0
   COVERALLS_REPO_TOKEN:
@@ -104,7 +104,7 @@ before_build:
   - nuget restore
 
 build:
-  verbosity: normal
+  verbosity: minimal
 
 build_script:
   - ps: >-
@@ -116,25 +116,28 @@ build_script:
 
 before_test:
 # NuGet packages for coverage
-  - ps: nuget install NUnit.Console -Version $env:NUnitConsoleVersion -OutputDirectory tools
+#  - ps: nuget install NUnit.Console -Version $env:NUnitConsoleVersion -OutputDirectory tools
   - ps: nuget install OpenCover -Version $env:OpenCoverVersion -OutputDirectory tools
 # Dot net tool for coverage
   - ps: dotnet tool install --tool-path tools --version $env:CoverallsVersion coveralls.net
   - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))  
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+#  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
-after_test: 
+test_script:
+#after_test: 
 # Coverage
 # Setup variables
   - ps: $opencover = (Resolve-Path "tools\OpenCover.*\tools\OpenCover.Console.exe").ToString()
-  - ps: $nunitFolder = (Resolve-Path "tools\NUnit.ConsoleRunner.*\tools").ToString()
-  - ps: $nunitConsole = (Resolve-Path "tools\NUnit.ConsoleRunner.*\tools\nunit3-console.exe").ToString()
+  - ps: $nunitFolder = (Resolve-Path "$env:SYSTEMDRIVE\Tools\NUnit3").ToString()
+  - ps: $nunitConsole = (Resolve-Path "$nunitFolder\nunit3-console.exe").ToString()
+  #- ps: $nunitFolder = (Resolve-Path "tools\NUnit.ConsoleRunner.*\tools").ToString()
+  #- ps: $nunitConsole = (Resolve-Path "tools\NUnit.ConsoleRunner.*\tools\nunit3-console.exe").ToString()
   - ps: $coveralls = (Resolve-Path "tools\csmacnz.Coveralls.exe").ToString()
 # Assemblies to test (only consider .NET Framework 4.5, because if taking those from target netcoreapp1.0 coverage fails)
   - ps: $testAssemblies = (ls src\*.Tests\bin\$env:Configuration\net45\*Tests.dll | % FullName | sort-object -Unique)
 # Generate coverage report
-#  - ps: >-
-#      & $opencover -register:Path64 -filter:"+[*]* -[*.Test*]* -[*]JetBrains.Annotations.*" -target:"$nunitConsole" -targetargs:"$testAssemblies" -log:Warn -output:coverage.xml
+  - ps: >-
+      & $opencover -register:Path64 -filter:"+[*]* -[*.Test*]* -[*]JetBrains.Annotations.*" -target:"$nunitConsole" -targetargs:"$testAssemblies --result=\`"TestResult.xml\`" --result=\`"TestResultAppVeyor.xml;format=AppVeyor\`"" -log:Warn -output:coverage.xml
   - ps: >-
       if ($env:IsFullIntegrationBuild -eq $true)
       {
@@ -151,14 +154,14 @@ artifacts:
   - path: '**\bin\Release\*.nupkg'
     name: NuGet
 
-deploy:
-  - provider: NuGet
-    server: https://www.myget.org/F/kernelith-ci/api/v2/package
-    api_key:
-      secure: ANF+joC2B+NahxCFbLPOjNvEAo36F2F4QJu6zLwoIf2I9KwkxKyCSuNxDpLmJmtU
-    skip_symbols: true
-    on:
-      configuration: Release
+#deploy:
+#  - provider: NuGet
+#    server: https://www.myget.org/F/kernelith-ci/api/v2/package
+#    api_key:
+#      secure: ANF+joC2B+NahxCFbLPOjNvEAo36F2F4QJu6zLwoIf2I9KwkxKyCSuNxDpLmJmtU
+#    skip_symbols: true
+#    on:
+#      configuration: Release
   # - provider: NuGet
     # server: https://nuget.pkg.github.com/KeRNeLith/index.json
     # username: KeRNeLith
