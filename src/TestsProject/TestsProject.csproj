@@ -23,8 +23,9 @@
 	<Owners>Alexandre Rabérin</Owners>
 	<Company>Alexandre Rabérin</Company>
 	<PackageTags>Tests Personal</PackageTags>
-	<AssemblyVersion>1.0.0</AssemblyVersion>
-	<FileVersion>1.0.0</FileVersion>
+	<AssemblyVersion>0.0.151</AssemblyVersion>
+	<FileVersion>0.0.151</FileVersion>
+	<Version>0.0.151</Version>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>

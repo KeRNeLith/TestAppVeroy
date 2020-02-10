@@ -15,13 +15,14 @@ branches:
 environment:
   SONARQUBE_TOKEN:
     secure: MTBDDF4aTiFIZFcSrOBkcmtDQnZiHx7R+Zozs8FXmpEXHt0ckiPqET8o7vj6LMBN
-  #NUnitConsoleVersion: 3.8.0
   OpenCoverVersion: 4.6.519
   CoverallsVersion: 1.0.0
   COVERALLS_REPO_TOKEN:
     secure: v31ShF3jpWCFELwt8iDTmUiKNB/5wZWMqy1EsCK/8LnT73kMlPjiK0ZL1rqIMjeo
   GITHUB_ACCESS_TOKEN:
     secure: fLTTmcGOM55kigJC4vErpObFmybCtzQtwb4QN55BTNq3GDGaOCoHDoIPxexzO59d
+  GITHUB_EMAIL:
+    secure: wcfqCHOmeRLZf/BX6u6qQSV89Q4jFs9fHNDgMpKAcqE=
 
 # Setup build version
 init:
@@ -68,21 +69,21 @@ init:
 
 
 # Assembly infos & csproj patching
-assembly_info:
-  patch: true
-  file: '**\\AssemblyInfo.*'
-  assembly_version: '$(Build_Assembly_Version)'
-  assembly_file_version: '$(Build_Version)'
+# assembly_info:
+  # patch: true
+  # file: '**\\AssemblyInfo.*'
+  # assembly_version: '$(Build_Assembly_Version)'
+  # assembly_file_version: '$(Build_Version)'
   # assembly_informational_version: '$(Build_Version)'
 
-dotnet_csproj:
-  patch: true
-  file: '**\*.csproj'
-  version: 0.0.151
-  package_version: 0.0.151
-  assembly_version: 0.0.151
-  file_version: 0.0.151
-  informational_version: 0.0.151
+# dotnet_csproj:
+  # patch: true
+  # file: '**\*.csproj'
+  # version: '$(Build_Version)'
+  # package_version: '$(Build_Version)'
+  # assembly_version: '$(Build_Assembly_Version)'
+  # file_version: '$(Build_Version)'
+  # informational_version: '$(Build_Version)'
 
 # Build configurations
 platform:
@@ -110,7 +111,7 @@ build_script:
   - ps: >-
       if ($env:IsFullIntegrationBuild -eq $true)
       {
-         & $sonarscanner begin /k:"tests_project" /o:"kernelith-github" /d:sonar.host.url="https://sonarcloud.io" /d:"sonar.branch.name=$env:APPVEYOR_REPO_BRANCH" /d:sonar.cs.opencover.reportsPaths="coverage.xml" /d:sonar.login="$env:SONARQUBE_TOKEN" /d:sonar.coverage.exclusions=Annotations.cs
+         #& $sonarscanner begin /k:"tests_project" /o:"kernelith-github" /d:sonar.host.url="https://sonarcloud.io" /d:"sonar.branch.name=$env:APPVEYOR_REPO_BRANCH" /d:sonar.cs.opencover.reportsPaths="coverage.xml" /d:sonar.login="$env:SONARQUBE_TOKEN" /d:sonar.coverage.exclusions=Annotations.cs
       }
   - msbuild
 
@@ -141,7 +142,7 @@ test_script:
   - ps: >-
       if ($env:IsFullIntegrationBuild -eq $true)
       {
-          & $sonarscanner end /d:"sonar.login=$env:SONARQUBE_TOKEN"
+          #& $sonarscanner end /d:"sonar.login=$env:SONARQUBE_TOKEN"
       }
 #  - ps: >-
 #      & $coveralls --opencover -i coverage.xml --repoToken $env:COVERALLS_REPO_TOKEN --useRelativePaths --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_BUILD_NUMBER --serviceName appveyor
@@ -162,12 +163,31 @@ deploy:
    skip_symbols: true
    on:
      configuration: Release
-  # - provider: NuGet
-    # server: https://nuget.pkg.github.com/KeRNeLith/index.json
-    # username: KeRNeLith
-    # api_key:
-      # secure: 6N37NtnuKSzKQXlPOCtPSFJGOvJUdJjPK8LcuWx2PjHs2WVdngenZvYixk6br72b
-
+ - provider: NuGet
+   server: https://nuget.pkg.github.com/KeRNeLith/index.json
+   username: KeRNeLith
+   api_key:
+     secure: 6N37NtnuKSzKQXlPOCtPSFJGOvJUdJjPK8LcuWx2PjHs2WVdngenZvYixk6br72b
+# GitHub packages
+ - provider: NuGet
+   server: https://nuget.pkg.github.com/KeRNeLith/index.json
+   username: KeRNeLith
+   api_key:
+     secure: 6N37NtnuKSzKQXlPOCtPSFJGOvJUdJjPK8LcuWx2PjHs2WVdngenZvYixk6br72b
+   on:
+     configuration: Release
+# GitHub
+ - provider: GitHub
+   auth_token:
+     secure: fLTTmcGOM55kigJC4vErpObFmybCtzQtwb4QN55BTNq3GDGaOCoHDoIPxexzO59d
+   release: '${$env:APPVEYOR_REPO_TAG_NAME}'
+   description: 'Version ${$env:APPVEYOR_REPO_TAG_NAME}'
+   artifact: NuGet
+   draft: false
+   prerelease: false
+   force_update: true
+   on:
+     configuration: Release
 # Deploy
 # deploy:
   # - provider: NuGet
