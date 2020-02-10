@@ -177,18 +177,18 @@ deploy:
      secure: 6N37NtnuKSzKQXlPOCtPSFJGOvJUdJjPK8LcuWx2PjHs2WVdngenZvYixk6br72b
    on:
      configuration: Release
-# GitHub
- - provider: GitHub
-   auth_token:
-     secure: fLTTmcGOM55kigJC4vErpObFmybCtzQtwb4QN55BTNq3GDGaOCoHDoIPxexzO59d
-   release: '${$env:APPVEYOR_REPO_TAG_NAME}'
-   description: 'Version ${$env:APPVEYOR_REPO_TAG_NAME}'
-   artifact: NuGet
-   draft: false
-   prerelease: false
-   force_update: true
-   on:
-     configuration: Release
+# # GitHub
+ # - provider: GitHub
+   # auth_token:
+     # secure: fLTTmcGOM55kigJC4vErpObFmybCtzQtwb4QN55BTNq3GDGaOCoHDoIPxexzO59d
+   # release: '${$env:APPVEYOR_REPO_TAG_NAME}'
+   # description: 'Version ${$env:APPVEYOR_REPO_TAG_NAME}'
+   # artifact: NuGet
+   # draft: false
+   # prerelease: false
+   # force_update: true
+   # on:
+     # configuration: Release
 # Deploy
 # deploy:
   # - provider: NuGet
