@@ -11,7 +11,7 @@ pull_requests:
 branches:
   except:
     - /tmp|temp/
-
+ 
 environment:
   SONARQUBE_TOKEN:
     secure: MTBDDF4aTiFIZFcSrOBkcmtDQnZiHx7R+Zozs8FXmpEXHt0ckiPqET8o7vj6LMBN
@@ -164,10 +164,10 @@ deploy:
    on:
      configuration: Release
  - provider: NuGet
-   server: https://nuget.pkg.github.com/KeRNeLith/index.json
-   username: KeRNeLith
    api_key:
-     secure: 6N37NtnuKSzKQXlPOCtPSFJGOvJUdJjPK8LcuWx2PjHs2WVdngenZvYixk6br72b
+     secure: a/0jxqKB5mP/ED1AIQ6YxAoiYZP93M5NQpyZbq40Tkzg+ye0MhFHlDQFBUefrseY
+   on:
+     configuration: Release
 # GitHub packages
  - provider: NuGet
    server: https://nuget.pkg.github.com/KeRNeLith/index.json
