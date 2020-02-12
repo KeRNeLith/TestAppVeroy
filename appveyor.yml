@@ -37,7 +37,7 @@ init:
     
     if ($env:APPVEYOR_REPO_TAG -eq "true")
     {
-        (Split-Path $MyInvocation.MyCommand.Path) + "\updatePackagesGeneration.ps1";
+        & ./updatePackagesGeneration.ps1
     }
     else
     {
