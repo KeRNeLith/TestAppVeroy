@@ -39,8 +39,29 @@ param(
     $newGenPackagesContentStr = $newGenPackagesContent | Out-String;
     if ($genPackagesContentStr -eq $newGenPackagesContentStr)
     {
-        throw "MSBuild property $propertyName does not exist in $genPackagesFilePath."
+        throw "MSBuild property $propertyName does not exist in $genPackagesFilePath.";
     }
 }
 
-UpdatePackagesGeneration $env:APPVEYOR_REPO_TAG_NAME
+<#
+.Synopsis
+    Update the PackagesGeneration.props to generate all packages.
+#>
+function UpdateAllPackagesGeneration()
+{
+    # Update the package generation props to enable package generation of the right package
+    $genPackagesFilePath = "./src/PackagesGeneration.props";
+    $genPackagesContent = Get-Content $genPackagesFilePath;
+    $newGenPackagesContent = $genPackagesContent -replace "false","true";
+    $newGenPackagesContent | Set-Content $genPackagesFilePath;
+}
+
+# Update .props based on git tag status
+if ($env:APPVEYOR_REPO_TAG -eq "true")
+{
+    UpdatePackagesGeneration $env:APPVEYOR_REPO_TAG_NAME;
+}
+else
+{
+    UpdateAllPackagesGeneration;
+}
