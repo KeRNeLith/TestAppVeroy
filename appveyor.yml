@@ -37,14 +37,15 @@ init:
     
     if ($env:APPVEYOR_REPO_TAG -eq "true")
     {
-        $env:Build_Version = "$($env:APPVEYOR_REPO_TAG_NAME.Replace('v', ''))";
-        $env:Build_Assembly_Version = $env:Build_Version;
+        ./updatePackagesGeneration.ps1
     }
     else
     {
         $env:Build_Version = "$($env:APPVEYOR_BUILD_VERSION)";
         $env:Build_Assembly_Version = "$env:Build_Version" -replace "\-.*","";
         $env:IsFullIntegrationBuild = "$env:APPVEYOR_PULL_REQUEST_NUMBER" -eq "" -And $env:Configuration -eq "Release";
+        "Build_Version: $env:Build_Version";
+        "Build_Assembly_Version: $env:Build_Assembly_Version";
     }
     
     $env:MyVar = $true;
@@ -66,9 +67,6 @@ init:
         "MyVar2 is false";
     }
     
-    
-    "Build_Version: $env:Build_Version";
-    "Build_Assembly_Version: $env:Build_Assembly_Version";
     "Integ build: $env:IsFullIntegrationBuild";
 
 for:
