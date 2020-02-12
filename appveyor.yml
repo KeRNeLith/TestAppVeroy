@@ -96,7 +96,6 @@ for:
       - GIT_TAG: true
   skip_non_tags: true
 
-
 # Assembly infos & csproj patching
 # assembly_info:
   # patch: true
