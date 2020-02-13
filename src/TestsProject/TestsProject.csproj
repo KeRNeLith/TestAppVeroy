@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net35;net40;net45;net452;netstandard1.0;netstandard2.0;netcoreapp1.0;netcoreapp2.0</TargetFrameworks>
     <!-- <TargetFrameworks>net45;netstandard1.1</TargetFrameworks> -->
-	<GeneratePackageOnBuild>$(Generate_Package)</GeneratePackageOnBuild>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	<PackageId>TestsProject</PackageId>
 	<IsPackable>true</IsPackable>
 	
@@ -11,9 +11,10 @@
 	<RootNamespace>Tests</RootNamespace>
 	<AssemblyName>TestsProject</AssemblyName>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
-	<!-- Include PDB files in NuGet for Source Link because symbolsource.org does not support portable PDBs -->
-	<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
-
+	
+    <!-- Optional: Build symbol package (.snupkg) to distribute the PDB containing Source Link -->
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	
 	<Title>TestsProject</Title>
 	<Copyright>Copyright © 2018</Copyright>
@@ -46,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2018.2.1" PrivateAssets="All" />
-	<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-63127-02" PrivateAssets="All" />
+	<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DefineConstants>JETBRAINS_ANNOTATIONS</DefineConstants>
