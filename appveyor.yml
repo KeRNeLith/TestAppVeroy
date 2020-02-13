@@ -39,7 +39,6 @@ install:
       
       if ($env:APPVEYOR_REPO_TAG -eq "true")
       {
-          
       }
       else
       {
@@ -89,6 +88,13 @@ for:
     file_version: '$(Build_Version)'
     informational_version: '$(Build_Version)'
   
+  assembly_info:
+    patch: true
+    file: '**\\AssemblyInfo.*'
+    assembly_version: '$(Build_Assembly_Version)'
+    assembly_file_version: '$(Build_Assembly_Version)'
+    assembly_informational_version: '$(Build_Version)'
+
 -
   # For git-tagged build
   matrix:
@@ -117,6 +123,7 @@ matrix:
 
 # Build
 before_build:
+  - ps: cat .\src\TestsProject\TestsProject.csproj
 # SonarQube
   - ps: dotnet tool install --tool-path tools dotnet-sonarscanner
   - ps: $sonarscanner = (Resolve-Path "tools\dotnet-sonarscanner.exe").ToString()
