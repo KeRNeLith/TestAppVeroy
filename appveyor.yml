@@ -35,7 +35,7 @@ install:
       "APPVEYOR_BUILD_VERSION: $env:APPVEYOR_BUILD_VERSION";
       "APPVEYOR_PULL_REQUEST_NUMBER: $env:APPVEYOR_PULL_REQUEST_NUMBER ";
       
-      ./updatePackagesGeneration.ps1;
+      ./build/updatePackagesGeneration.ps1;
       
       if ($env:APPVEYOR_REPO_TAG -eq "true")
       {
@@ -190,19 +190,19 @@ deploy:
    skip_symbols: true
    on:
      configuration: Release
- - provider: NuGet
-   api_key:
-     secure: a/0jxqKB5mP/ED1AIQ6YxAoiYZP93M5NQpyZbq40Tkzg+ye0MhFHlDQFBUefrseY
-   on:
-     configuration: Release
+ # - provider: NuGet
+   # api_key:
+     # secure: a/0jxqKB5mP/ED1AIQ6YxAoiYZP93M5NQpyZbq40Tkzg+ye0MhFHlDQFBUefrseY
+   # on:
+     # configuration: Release
 # GitHub packages
- - provider: NuGet
-   server: https://nuget.pkg.github.com/KeRNeLith/index.json
-   username: KeRNeLith
-   api_key:
-     secure: 6N37NtnuKSzKQXlPOCtPSFJGOvJUdJjPK8LcuWx2PjHs2WVdngenZvYixk6br72b
-   on:
-     configuration: Release
+ # - provider: NuGet
+   # server: https://nuget.pkg.github.com/KeRNeLith/index.json
+   # username: KeRNeLith
+   # api_key:
+     # secure: 6N37NtnuKSzKQXlPOCtPSFJGOvJUdJjPK8LcuWx2PjHs2WVdngenZvYixk6br72b
+   # on:
+     # configuration: Release
 # # GitHub
  # - provider: GitHub
    # auth_token:
