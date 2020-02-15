@@ -190,7 +190,7 @@ deploy:
    symbol_server: https://www.myget.org/F/kernelith-ci/symbols/api/v2/package
    api_key:
      secure: ANF+joC2B+NahxCFbLPOjNvEAo36F2F4QJu6zLwoIf2I9KwkxKyCSuNxDpLmJmtU
-   #skip_symbols: true
+   skip_symbols: true
    on:
      configuration: Release
  - provider: NuGet
