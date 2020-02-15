@@ -22,12 +22,7 @@ function UpdatePackagesGeneration
 {
 param(
 [Parameter(Mandatory)]
-[string] $tagName)
-    $tagParts = $tagName.split("/", 2);
-
-    # Retrieve MSBuild property name for which enabling package generation
-    $propertyName = GetPropertyNameFromSlug $tagParts[0];
-
+[string] $propertyName)
     # Update the package generation props to enable package generation of the right package
     $genPackagesFilePath = "./src/PackagesGeneration.props";
     $genPackagesContent = Get-Content $genPackagesFilePath;
@@ -56,12 +51,25 @@ function UpdateAllPackagesGeneration()
     $newGenPackagesContent | Set-Content $genPackagesFilePath;
 }
 
-# Update .props based on git tag status
 if ($env:APPVEYOR_REPO_TAG -eq "true")
 {
-    UpdatePackagesGeneration $env:APPVEYOR_REPO_TAG_NAME;
+    $tagParts = $env:APPVEYOR_REPO_TAG_NAME.split("/", 2);
+
+    # Retrieve MSBuild property name for which enabling package generation
+    $propertyName = GetPropertyNameFromSlug $tagParts[0];
+    $tagVersion = $tagParts[1];
+
+    UpdatePackagesGeneration $propertyName;
+    $env:Build_Version = $tagVersion;
+    $env:IsFullIntegrationBuild = true;
 }
 else
 {
     UpdateAllPackagesGeneration;
+    $env:Build_Version = "$($env:APPVEYOR_BUILD_VERSION)";
+    $env:IsFullIntegrationBuild = "$env:APPVEYOR_PULL_REQUEST_NUMBER" -eq "" -And $env:Configuration -eq "Release";
 }
+
+$env:Build_Assembly_Version = "$env:Build_Version" -replace "\-.*","";
+"Build_Version: $env:Build_Version";
+"Build_Assembly_Version: $env:Build_Assembly_Version";
