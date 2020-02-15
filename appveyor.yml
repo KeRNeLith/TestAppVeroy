@@ -202,7 +202,7 @@ deploy:
    auth_token:
      secure: fLTTmcGOM55kigJC4vErpObFmybCtzQtwb4QN55BTNq3GDGaOCoHDoIPxexzO59d
    #artifact: NuGet, NuGet symbols
-   release: '${Release_Name}'
+   release: '${env:APPVEYOR_REPO_TAG_NAME}'
    description: 'Version ${Release_Name}'
    draft: false
    prerelease: false
