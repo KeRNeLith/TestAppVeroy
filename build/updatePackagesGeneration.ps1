@@ -58,7 +58,13 @@ if ($env:APPVEYOR_REPO_TAG -eq "true")
 
     # Retrieve MSBuild property name for which enabling package generation
     $tagSlug = $tagParts[0];
+    $tagSlug;
+    $tagSlug.GetType();
+    
     $propertyName = GetPropertyNameFromSlug $tagSlug;
+    $propertyName;
+    $propertyName.GetType();
+    
     $tagVersion = $tagParts[1];
 
     UpdatePackagesGeneration $propertyName;
