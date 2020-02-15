@@ -201,6 +201,7 @@ deploy:
 # GitHub packages
  - provider: NuGet
    server: https://nuget.pkg.github.com/KeRNeLith/index.json
+   symbol_server: https://nuget.pkg.github.com/KeRNeLith/index.json
    username: KeRNeLith
    api_key:
      secure: 6N37NtnuKSzKQXlPOCtPSFJGOvJUdJjPK8LcuWx2PjHs2WVdngenZvYixk6br72b
