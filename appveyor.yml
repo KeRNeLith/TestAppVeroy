@@ -202,8 +202,8 @@ deploy:
    auth_token:
      secure: fLTTmcGOM55kigJC4vErpObFmybCtzQtwb4QN55BTNq3GDGaOCoHDoIPxexzO59d
    #artifact: NuGet, NuGet symbols
-   release: '${Build_Version}'
-   description: 'Version ${Build_Version}'
+   release: '${Release_Name}'
+   description: 'Version ${Release_Name}'
    draft: false
    prerelease: false
    force_update: true

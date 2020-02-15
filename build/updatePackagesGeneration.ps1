@@ -51,25 +51,41 @@ function UpdateAllPackagesGeneration()
     $newGenPackagesContent | Set-Content $genPackagesFilePath;
 }
 
+# Update .props based on git tag status & setup build version
 if ($env:APPVEYOR_REPO_TAG -eq "true")
 {
     $tagParts = $env:APPVEYOR_REPO_TAG_NAME.split("/", 2);
 
     # Retrieve MSBuild property name for which enabling package generation
-    $propertyName = GetPropertyNameFromSlug $tagParts[0];
+    $tagSlug = $tagParts[0];
+    $propertyName = GetPropertyNameFromSlug $tagSlug;
     $tagVersion = $tagParts[1];
 
     UpdatePackagesGeneration $propertyName;
     $env:Build_Version = $tagVersion;
-    $env:IsFullIntegrationBuild = true;
+    $env:Release_Name = "$tagSlug $tagVersion";
+    
+    $env:IsFullIntegrationBuild = $true;
 }
 else
 {
     UpdateAllPackagesGeneration;
     $env:Build_Version = "$($env:APPVEYOR_BUILD_VERSION)";
+    $env:Release_Name = $env:Build_Version;
+
     $env:IsFullIntegrationBuild = "$env:APPVEYOR_PULL_REQUEST_NUMBER" -eq "" -And $env:Configuration -eq "Release";
 }
 
 $env:Build_Assembly_Version = "$env:Build_Version" -replace "\-.*","";
-"Build_Version: $env:Build_Version";
-"Build_Assembly_Version: $env:Build_Assembly_Version";
+
+"Building version: $env:Build_Version";
+"Building assembly version: $env:Build_Assembly_Version";
+
+if ($env:IsFullIntegrationBuild -eq $true)
+{
+    "With full integration";
+}
+else
+{
+    "Without full integration";
+}
