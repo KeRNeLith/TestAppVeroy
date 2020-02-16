@@ -55,6 +55,14 @@ namespace Tests
             return c + d + e;
         }
 
+        public int ComplexTextMethod(int d)
+        {
+            var res = PublicHelpers.MakeSomeStuff(d);
+            var res1 = PublicHelpers.MakeSomeStuff(25);
+            var res2 = PublicHelpers.MakeSomeStuff();
+            return res + res1 + res2;
+        }
+
         public int ComputedProp
         {
             get
