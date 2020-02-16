@@ -146,13 +146,47 @@ artifacts:
     name: NuGet
 
 deploy:
+# MyGet
   - provider: NuGet
     server: https://www.myget.org/F/kernelith-ci/api/v2/package
+    symbol_server: https://www.myget.org/F/kernelith-ci/symbols/api/v2/package
     api_key:
       secure: ANF+joC2B+NahxCFbLPOjNvEAo36F2F4QJu6zLwoIf2I9KwkxKyCSuNxDpLmJmtU
-    skip_symbols: true
     on:
       configuration: Release
+# GitHub packages
+  - provider: NuGet
+    server: https://nuget.pkg.github.com/KeRNeLith/index.json
+    username: KeRNeLith
+    api_key:
+      secure: 6N37NtnuKSzKQXlPOCtPSFJGOvJUdJjPK8LcuWx2PjHs2WVdngenZvYixk6br72b
+    skip_symbols: true
+    artifact: NuGet
+    on:
+      branch: master
+      configuration: Release
+      APPVEYOR_REPO_TAG: true
+# NuGet
+  - provider: NuGet
+    api_key:
+      secure: a/0jxqKB5mP/ED1AIQ6YxAoiYZP93M5NQpyZbq40Tkzg+ye0MhFHlDQFBUefrseY
+    on:
+      branch: master
+      configuration: Release
+      APPVEYOR_REPO_TAG: true
+# GitHub
+  - provider: GitHub
+    auth_token:
+      secure: fLTTmcGOM55kigJC4vErpObFmybCtzQtwb4QN55BTNq3GDGaOCoHDoIPxexzO59d
+    release: '${APPVEYOR_REPO_TAG_NAME}'
+    description: 'Version ${Release_Name}'
+    draft: false
+    prerelease: false
+    force_update: true
+    on:
+      branch: master
+      configuration: Release
+      APPVEYOR_REPO_TAG: true
   # - provider: NuGet
     # server: https://nuget.pkg.github.com/KeRNeLith/index.json
     # username: KeRNeLith
