@@ -13,8 +13,11 @@ branches:
     - /tmp|temp/
 
 environment:
+  VSINSTALLDIR: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community"
+  VisualStudioVersion: 16.0
   SONARQUBE_TOKEN:
     secure: MTBDDF4aTiFIZFcSrOBkcmtDQnZiHx7R+Zozs8FXmpEXHt0ckiPqET8o7vj6LMBN
+  DocFXVersion: 2.42.4
   NUnitConsoleVersion: 3.8.0
   OpenCoverVersion: 4.6.519
   CoverallsVersion: 1.0.0
@@ -22,6 +25,8 @@ environment:
     secure: v31ShF3jpWCFELwt8iDTmUiKNB/5wZWMqy1EsCK/8LnT73kMlPjiK0ZL1rqIMjeo
   GITHUB_ACCESS_TOKEN:
     secure: fLTTmcGOM55kigJC4vErpObFmybCtzQtwb4QN55BTNq3GDGaOCoHDoIPxexzO59d
+  GITHUB_EMAIL:
+    secure: wcfqCHOmeRLZf/BX6u6qQSV89Q4jFs9fHNDgMpKAcqE=
 
 # Setup build version
 init:
@@ -144,6 +149,9 @@ after_test:
 artifacts:  
   - path: '**\bin\Release\*.nupkg'
     name: NuGet
+
+before_deploy:
+  - ps: ./build/releaseDoc.ps1
 
 deploy:
 # MyGet
