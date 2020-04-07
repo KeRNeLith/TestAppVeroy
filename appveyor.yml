@@ -17,7 +17,7 @@ environment:
   VisualStudioVersion: 16.0
   SONARQUBE_TOKEN:
     secure: MTBDDF4aTiFIZFcSrOBkcmtDQnZiHx7R+Zozs8FXmpEXHt0ckiPqET8o7vj6LMBN
-  DocFXVersion: 2.42.4
+  DocFXVersion: 2.51
   NUnitConsoleVersion: 3.8.0
   OpenCoverVersion: 4.6.519
   CoverallsVersion: 1.0.0
