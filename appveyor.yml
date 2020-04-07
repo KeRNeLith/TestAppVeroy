@@ -13,8 +13,8 @@ branches:
     - /tmp|temp/
 
 environment:
-  VSINSTALLDIR: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community"
-  VisualStudioVersion: 16.0
+  #VSINSTALLDIR: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community"
+  #VisualStudioVersion: 16.0
   SONARQUBE_TOKEN:
     secure: MTBDDF4aTiFIZFcSrOBkcmtDQnZiHx7R+Zozs8FXmpEXHt0ckiPqET8o7vj6LMBN
   DocFXVersion: 2.51
