@@ -138,18 +138,23 @@ test_script:
       # Directory.Parent.Parent = tests\TestProject.Tests\bin
       # Directory.Parent.Parent.Parent = tests\TestProject.Tests
       
-      $testAssemblies = (ls src\*.Tests\bin\$env:Configuration\net45\*Tests.dll | Where-Object { $_ -Match "net*" -and $_ -NotMatch "netcoreapp*" -and [System.IO.Path]::GetFileNameWithoutExtension($_.FullName) -Match $_.Directory.Parent.Parent.Parent.Name } | % FullName | sort-object -Unique)
-      
+      $testAssemblies = (ls src\*.Tests\bin\$env:Configuration\net45\*Tests.dll | Where-Object { $_ -Match "net*" -and $_ -NotMatch "netcoreapp*" -and [System.IO.Path]::GetFileNameWithoutExtension($_.FullName) -Match $_.Directory.Parent.Parent.Parent.Name } | % FullName | sort-object -Unique);
+      $allTestsCompleted = $false;
       $opencover = (Resolve-Path "tools\OpenCover.*\tools\OpenCover.Console.exe").ToString();
       $coveralls = (Resolve-Path "tools\csmacnz.Coveralls.exe").ToString();
       
-      & $opencover -register:Path64 -filter:"+[*]* -[*.Test*]* -[*]JetBrains.Annotations*" -target:"$nunitConsole" -targetargs:"$testAssemblies --result=\`"TestResult.xml\`"" -returntargetcode -log:Warn -output:coverage.xml
-      
+      & $opencover -register:Path64 -filter:"+[*]* -[*.Test*]* -[*]JetBrains.Annotations*" -target:"$nunitConsole" -targetargs:"$testAssemblies --result=\`"TestResult.xml\`"" -returntargetcode -log:Warn -output:coverage.xml;
+      $allTestsCompleted = $?;
       & $sonarScanner end /d:"sonar.login=$env:SONARQUBE_TOKEN"
       # Upload results to AppVeyor
       
       $wc = New-Object 'System.Net.WebClient';
       $wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit3/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\TestResult.xml));
+      
+      if (!$allTestsCompleted)
+      {
+          throw "Unit tests failed";
+      }
 
 # Artifact
 artifacts:  
