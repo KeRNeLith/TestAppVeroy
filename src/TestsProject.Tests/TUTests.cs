@@ -14,10 +14,10 @@ namespace Tests
         }
 
         [Test]
-        public void TestFailFixedMethod()
+        public void TestFailMethod()
         {
             int a = 3;
-            int b = 3;
+            int b = 4;
             Assert.AreEqual(a, b);
         }
 
