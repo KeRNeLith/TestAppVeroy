@@ -126,24 +126,30 @@ before_test:
 # Dot net tool for coverage
   - ps: dotnet tool install --tool-path tools --version $env:CoverallsVersion coveralls.net
 
-after_test: 
-# Coverage
-# Setup variables
-  - ps: $opencover = (Resolve-Path "tools\OpenCover.*\tools\OpenCover.Console.exe").ToString()
-  - ps: $nunitConsole = (Resolve-Path "tools\NUnit.ConsoleRunner.*\tools\nunit3-console.exe").ToString()
-  - ps: $coveralls = (Resolve-Path "tools\csmacnz.Coveralls.exe").ToString()
-# Assemblies to test (only consider .NET Framework 4.5, because if taking those from target netcoreapp1.0 coverage fails)
-  - ps: $testAssemblies = (ls src\*.Tests\bin\$env:Configuration\net45\*Tests.dll | % FullName | sort-object -Unique)
-# Generate coverage report
-#  - ps: >-
-#      & $opencover -register:Path64 -filter:"+[*]* -[*.Test*]* -[*]JetBrains.Annotations.*" -target:"$nunitConsole" -targetargs:"$testAssemblies" -log:Warn -output:coverage.xml
+test_script:
   - ps: >-
-      if ($env:IsFullIntegrationBuild -eq $true)
-      {
-          & $sonarscanner end /d:"sonar.login=$env:SONARQUBE_TOKEN"
-      }
-#  - ps: >-
-#      & $coveralls --opencover -i coverage.xml --repoToken $env:COVERALLS_REPO_TOKEN --useRelativePaths --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_BUILD_NUMBER --serviceName appveyor
+      $nunitFolder = (Resolve-Path "tools\NUnit.ConsoleRunner.*\tools").ToString();
+      $nunitConsole = (Resolve-Path "$nunitFolder\nunit3-console.exe").ToString();
+      
+      # Only take test assemblies matching their folder name
+      # Example:
+      # Directory = tests\TestProject.Tests\bin\CONFIGURATION\TARGET
+      # Directory.Parent = tests\TestProject.Tests\bin\CONFIGURATION
+      # Directory.Parent.Parent = tests\TestProject.Tests\bin
+      # Directory.Parent.Parent.Parent = tests\TestProject.Tests
+      
+      $testAssemblies = (ls src\*.Tests\bin\$env:Configuration\net45\*Tests.dll | Where-Object { $_ -Match "net*" -and $_ -NotMatch "netcoreapp*" -and [System.IO.Path]::GetFileNameWithoutExtension($_.FullName) -Match $_.Directory.Parent.Parent.Parent.Name } | % FullName | sort-object -Unique)
+      
+      $opencover = (Resolve-Path "tools\OpenCover.*\tools\OpenCover.Console.exe").ToString();
+      $coveralls = (Resolve-Path "tools\csmacnz.Coveralls.exe").ToString();
+      
+      & $opencover -register:Path64 -filter:"+[*]* -[*.Test*]* -[*]JetBrains.Annotations*" -target:"$nunitConsole" -targetargs:"$testAssemblies --result=\`"TestResult.xml\`"" -returntargetcode -log:Warn -output:coverage.xml
+      
+      & $sonarScanner end /d:"sonar.login=$env:SONARQUBE_TOKEN"
+      # Upload results to AppVeyor
+      
+      $wc = New-Object 'System.Net.WebClient';
+      $wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit3/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\TestResult.xml));
 
 # Artifact
 artifacts:  
