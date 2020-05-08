@@ -1,0 +1,1 @@
+7z.exe a MyTest.zip src\TestsProject\bin\*\net452\* -r -x!*.pdb

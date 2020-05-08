@@ -156,10 +156,15 @@ test_script:
           throw "Unit tests failed";
       }
 
+after_test:
+  - ps: ./build/package.ps1
+
 # Artifact
 artifacts:  
   - path: '**\bin\Release\*.nupkg'
     name: NuGet
+  - path: '**\bin\Release\*.zip'
+    name: Samples
 
 before_deploy:
   - ps: ./build/releaseDoc.ps1
@@ -199,13 +204,14 @@ deploy:
       secure: fLTTmcGOM55kigJC4vErpObFmybCtzQtwb4QN55BTNq3GDGaOCoHDoIPxexzO59d
     release: '${APPVEYOR_REPO_TAG_NAME}'
     description: 'Version ${Release_Name}'
+    artifact: NuGet, Samples
     draft: false
     prerelease: false
     force_update: true
     on:
       branch: master
       configuration: Release
-      APPVEYOR_REPO_TAG: true
+      #APPVEYOR_REPO_TAG: true
   # - provider: NuGet
     # server: https://nuget.pkg.github.com/KeRNeLith/index.json
     # username: KeRNeLith
