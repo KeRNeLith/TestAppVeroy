@@ -27,7 +27,7 @@
 	<FileVersion>1.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="..\..\docs\images\logo.png" Pack="true" Visible="false" PackagePath=""/>
+    <None Include="..\..\docs\images\logo.png" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,4 +54,5 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DefineConstants>JETBRAINS_ANNOTATIONS</DefineConstants>
   </PropertyGroup>
+  <Import Project="..\..\SharedProject1\SharedProject1.projitems" Label="Shared" />
 </Project>

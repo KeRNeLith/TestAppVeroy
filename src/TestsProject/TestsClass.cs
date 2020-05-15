@@ -1,6 +1,7 @@
 ﻿using System;
 //using System.Runtime.Serialization;
 using JetBrains.Annotations;
+using SharedProject1;
 
 namespace Tests
 {
@@ -80,6 +81,7 @@ namespace Tests
         [CanBeNull]
         public string TestMethod([NotNull] string p)
         {
+            TestSharedProject.Foo();
             if (p == "Hello")
                 return "World";
             return null;
