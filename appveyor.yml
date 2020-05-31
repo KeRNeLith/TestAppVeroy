@@ -93,7 +93,7 @@ after_test:
 
 # Artifact
 artifacts:  
-  - path: '**\bin\Release\SubTestsProject*.nupkg'
+  - path: '**\bin\Release\*.nupkg'
     name: NuGet
 
 deploy:
