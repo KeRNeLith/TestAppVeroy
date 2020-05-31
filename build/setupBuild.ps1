@@ -4,7 +4,6 @@ if ($env:APPVEYOR_REPO_TAG -eq "true")
 
     if ($tagParts.Length -eq 1) # X.Y.Z
     {
-        UpdateAllPackagesGeneration;
         $env:Build_Version = $env:APPVEYOR_REPO_TAG_NAME;
         $env:Release_Name = $env:Build_Version;
     }
