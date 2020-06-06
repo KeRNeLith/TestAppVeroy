@@ -195,7 +195,7 @@ deploy:
     api_key:
       secure: a/0jxqKB5mP/ED1AIQ6YxAoiYZP93M5NQpyZbq40Tkzg+ye0MhFHlDQFBUefrseY
     on:
-      branch: master
+      #branch: master
       configuration: Release
       #APPVEYOR_REPO_TAG: true
 # GitHub
