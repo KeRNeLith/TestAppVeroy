@@ -50,7 +50,7 @@
     <None Include="..\..\LICENSE" Pack="true" PackagePath="" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="StrongNamer" Version="0.2.5" />
+  
     <PackageReference Include="StrongNamer" Version="0.2.5" PrivateAssets="All"/>
     <PackageReference Include="AutomaticGraphLayout" Version="1.1.7" />
     <!--<PackageReference Include="JetBrains.Annotations" Version="2018.2.1" PrivateAssets="All" />-->
