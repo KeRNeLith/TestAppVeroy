@@ -138,7 +138,7 @@ test_script:
       # Directory.Parent.Parent = tests\TestProject.Tests\bin
       # Directory.Parent.Parent.Parent = tests\TestProject.Tests
       
-      $testAssemblies = (ls src\*.Tests\bin\$env:Configuration\net45\*Tests.dll | Where-Object { $_ -Match "net*" -and $_ -NotMatch "netcoreapp*" -and [System.IO.Path]::GetFileNameWithoutExtension($_.FullName) -Match $_.Directory.Parent.Parent.Parent.Name } | % FullName | sort-object -Unique);
+      $testAssemblies = (ls src\*.Tests\bin\$env:Configuration\net461\*Tests.dll | Where-Object { $_ -Match "net*" -and $_ -NotMatch "netcoreapp*" -and [System.IO.Path]::GetFileNameWithoutExtension($_.FullName) -Match $_.Directory.Parent.Parent.Parent.Name } | % FullName | sort-object -Unique);
       $allTestsCompleted = $false;
       $opencover = (Resolve-Path "tools\OpenCover.*\tools\OpenCover.Console.exe").ToString();
       $coveralls = (Resolve-Path "tools\csmacnz.Coveralls.exe").ToString();
