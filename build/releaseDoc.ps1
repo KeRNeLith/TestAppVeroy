@@ -104,8 +104,8 @@ Invoke-Git "add -A .";
 #if (-not [string]::IsNullOrEmpty($(git status --porcelain)))
 #{
 "Pushing the new documentation to the remote gh-pages branch...";
-cat ~\.git-credentials;
-cat ~\.gitconfig;
+#cat ~\.git-credentials;
+#cat ~\.gitconfig;
 git commit -m "Update generated documentation.";
 # -q is to avoid git to output thing to stderr for no reason
 git push -q origin gh-pages;
