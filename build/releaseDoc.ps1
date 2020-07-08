@@ -107,6 +107,7 @@ Invoke-Git "add -A .";
 #cat ~\.git-credentials;
 #cat ~\.gitconfig;
 git commit -m "Update generated documentation.";
+git remote set-url origin https://$($env:GITHUB_ACCESS_TOKEN)@github.com/KeRNeLith/TestAppVeroy.git
 # -q is to avoid git to output thing to stderr for no reason
 git push -q origin gh-pages;
 
