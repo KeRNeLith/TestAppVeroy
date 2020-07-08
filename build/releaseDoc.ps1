@@ -101,17 +101,18 @@ cp -recurse $SOURCE_DIR/docs/_site/* .;
 Invoke-Git "add -A .";
 
 "Checking if there are changes in the documentation...";
-if (-not [string]::IsNullOrEmpty($(git status --porcelain)))
-{
-    "Pushing the new documentation to the remote gh-pages branch...";
+#if (-not [string]::IsNullOrEmpty($(git status --porcelain)))
+#{
+"Pushing the new documentation to the remote gh-pages branch...";
+cat ~\.git-credentials;
+cat ~\.gitconfig;
+git commit -m "Update generated documentation.";
+# -q is to avoid git to output thing to stderr for no reason
+git push -q origin gh-pages;
 
-    git commit -m "Update generated documentation.";
-    # -q is to avoid git to output thing to stderr for no reason
-    git push -q origin gh-pages;
-
-    "Documentation updated in remote gh-pages branch.";
-}
-else
-{
-    "Documentation update ignored: No relevant changes in the documentation.";
-}
+"Documentation updated in remote gh-pages branch.";
+#}
+#else
+#{
+#    "Documentation update ignored: No relevant changes in the documentation.";
+#}
