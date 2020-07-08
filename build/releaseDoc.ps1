@@ -61,57 +61,57 @@ if ($env:Configuration -ne "Release")
 # }
 
 # Chocolatey DocFX
-cinst docfx --version $env:DocFXVersion
+cinst docfx --version $env:DocFXVersion;
 
-git config --global core.autocrlf true
-git config --global core.eol lf
+git config --global core.autocrlf true;
+git config --global core.eol lf;
 
-git config --global credential.helper store
+git config --global credential.helper store;
 
-Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:GITHUB_ACCESS_TOKEN):x-oauth-basic@github.com`n"
+Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:GITHUB_ACCESS_TOKEN):x-oauth-basic@github.com`n";
 
-git config --global user.email $env:GITHUB_EMAIL
-git config --global user.name "KeRNeLith"
+git config --global user.email $env:GITHUB_EMAIL;
+git config --global user.name "KeRNeLith";
 
-"Generating documentation site..."
-docfx ./docs/docfx.json
+"Generating documentation site...";
+docfx ./docs/docfx.json;
 
-$SOURCE_DIR=$pwd.Path
-$TEMP_REPO_DIR="$pwd/../TestAppVeroy-gh-pages"
+$SOURCE_DIR=$pwd.Path;
+$TEMP_REPO_DIR="$pwd/../TestAppVeroy-gh-pages";
 
 if (Test-Path $TEMP_REPO_DIR)
 {
-    "Removing temporary documentation directory $TEMP_REPO_DIR..."
-    rm -recurse $TEMP_REPO_DIR
+    "Removing temporary documentation directory $TEMP_REPO_DIR...";
+    rm -recurse $TEMP_REPO_DIR;
 }
 
-mkdir $TEMP_REPO_DIR
+mkdir $TEMP_REPO_DIR;
 
-"Cloning the repository gh-pages branch."
+"Cloning the repository gh-pages branch.";
 # -q is to avoid git to output thing to stderr for no reason
-git clone -q https://github.com/KeRNeLith/TestAppVeroy.git --branch gh-pages $TEMP_REPO_DIR
+git clone -q https://github.com/KeRNeLith/TestAppVeroy.git --branch gh-pages $TEMP_REPO_DIR;
 
-"Clear local repository gh-pages directory..."
-cd $TEMP_REPO_DIR
-git rm -r *
+"Clear local repository gh-pages directory...";
+cd $TEMP_REPO_DIR;
+git rm -r *;
 
-"Copying documentation into the local repository gh-pages directory..."
-cp -recurse $SOURCE_DIR/docs/_site/* .
+"Copying documentation into the local repository gh-pages directory...";
+cp -recurse $SOURCE_DIR/docs/_site/* .;
 
-Invoke-Git "add -A ."
+Invoke-Git "add -A .";
 
-"Checking if there are changes in the documentation..."
+"Checking if there are changes in the documentation...";
 if (-not [string]::IsNullOrEmpty($(git status --porcelain)))
 {
-    "Pushing the new documentation to the remote gh-pages branch..."
+    "Pushing the new documentation to the remote gh-pages branch...";
 
-    git commit -m "Update generated documentation."
+    git commit -m "Update generated documentation.";
     # -q is to avoid git to output thing to stderr for no reason
-    git push -q origin gh-pages
+    git push -q origin gh-pages;
 
-    "Documentation updated in remote gh-pages branch."
+    "Documentation updated in remote gh-pages branch.";
 }
 else
 {
-    "Documentation update ignored: No relevant changes in the documentation."
+    "Documentation update ignored: No relevant changes in the documentation.";
 }
