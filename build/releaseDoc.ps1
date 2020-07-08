@@ -66,9 +66,9 @@ cinst docfx --version $env:DocFXVersion;
 git config --global core.autocrlf true;
 git config --global core.eol lf;
 
-git config --global credential.helper store;
+#git config --global credential.helper store;
 
-Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:GITHUB_ACCESS_TOKEN):x-oauth-basic@github.com`n";
+#Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:GITHUB_ACCESS_TOKEN):x-oauth-basic@github.com`n";
 
 git config --global user.email $env:GITHUB_EMAIL;
 git config --global user.name "KeRNeLith";
