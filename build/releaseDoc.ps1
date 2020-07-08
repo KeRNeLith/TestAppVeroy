@@ -54,11 +54,11 @@ if ($env:Configuration -ne "Release")
     Return;
 }
 
-if ($env:APPVEYOR_REPO_BRANCH -ne "master")
-{
-    "Documentation update ignored: Not master branch.";
-    Return;
-}
+# if ($env:APPVEYOR_REPO_BRANCH -ne "master")
+# {
+    # "Documentation update ignored: Not master branch.";
+    # Return;
+# }
 
 # Chocolatey DocFX
 cinst docfx --version $env:DocFXVersion
