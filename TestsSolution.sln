@@ -8,6 +8,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestsProject.Tests", "src\T
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedProject1", "SharedProject1\SharedProject1.shproj", "{BBB8EFA2-80A5-4D62-9707-36902ABA4B1E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SubTestsProject", "src\SubTestsProject\SubTestsProject.csproj", "{A2818908-22B2-4D3B-BAFC-BE2ACBAA2883}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		SharedProject1\SharedProject1.projitems*{bbb8efa2-80a5-4d62-9707-36902aba4b1e}*SharedItemsImports = 13
@@ -25,6 +27,10 @@ Global
 		{719D6926-25E6-5B34-1398-5F6F30FC12BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{719D6926-25E6-5B34-1398-5F6F30FC12BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{719D6926-25E6-5B34-1398-5F6F30FC12BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2818908-22B2-4D3B-BAFC-BE2ACBAA2883}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2818908-22B2-4D3B-BAFC-BE2ACBAA2883}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2818908-22B2-4D3B-BAFC-BE2ACBAA2883}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2818908-22B2-4D3B-BAFC-BE2ACBAA2883}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
