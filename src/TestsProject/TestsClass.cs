@@ -33,7 +33,7 @@ namespace Tests
         /// </summary>
         public string Test { get; set; }
 
-        public int TestMethod()
+        public int TestMethod() 
         {
             int a = 12;
             int b = 42;
