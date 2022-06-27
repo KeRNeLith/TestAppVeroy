@@ -4,12 +4,48 @@
   "xrefmap": "xrefmap.yml",
   "files": [
     {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tests.TestClass.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tests.TestClass.html",
+          "hash": "s09RP6Dv/vOs/dv4Atv+DKVAAwQdWjteEiifn8i1Y5U="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tests.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tests.html",
+          "hash": "aPJg6BmyDeYp9qbw/Cw3qZWYSCRMoCNhi21uxuk4f9Y="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
       "type": "Conceptual",
       "source_relative_path": "api/index.md",
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "md3l1fTS9VVwlBTxIDSMZA=="
+          "hash": "1NMIxy3Gq7ZmvUyWnfywqepg+Qh6ONREyYnFXkzwfrU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "MnOKJ5grPgf2J65PxNpbGjpCV+3iBqTyYueTN/HIEhc="
         }
       },
       "is_incremental": false,
@@ -32,7 +68,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "yApQyY8N2Oq+d4b91WM1kQ=="
+          "hash": "jUP6oUzE3ntMvA2nKd1dmT0JbD9/U1qVLS7NPbubYI4="
         }
       },
       "is_incremental": false,
@@ -44,7 +80,7 @@
       "output": {
         ".html": {
           "relative_path": "toc.html",
-          "hash": "K/CC0kK54R5wL4e7R602Hw=="
+          "hash": "DV+1mNfV09RKIzrGKDGBJwhjgXF2qFppnBoGvB2dxUU="
         }
       },
       "is_incremental": false,
@@ -63,6 +99,12 @@
       },
       "processors": {
         "ConceptualDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 2,
+          "skipped_file_count": 0
+        },
+        "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
           "total_file_count": 2,
