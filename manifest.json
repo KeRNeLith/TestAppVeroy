@@ -4,48 +4,12 @@
   "xrefmap": "xrefmap.yml",
   "files": [
     {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Tests.TestClass.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Tests.TestClass.html",
-          "hash": "6dW4MHh1dyosf93H68/rmA=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Tests.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Tests.html",
-          "hash": "0MzlwoonIjg8I6jCu154yQ=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
       "type": "Conceptual",
       "source_relative_path": "api/index.md",
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "l8f7I+IdYqP8YVhspDU4Uw=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "Toc",
-      "source_relative_path": "api/toc.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/toc.html",
-          "hash": "rxdNlbNQ2gor4wYcDrlLIw=="
+          "hash": "md3l1fTS9VVwlBTxIDSMZA=="
         }
       },
       "is_incremental": false,
@@ -68,7 +32,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "PU4pX2GNgrydk3JqWPJmrA=="
+          "hash": "yApQyY8N2Oq+d4b91WM1kQ=="
         }
       },
       "is_incremental": false,
@@ -80,7 +44,7 @@
       "output": {
         ".html": {
           "relative_path": "toc.html",
-          "hash": "uo1E08L7xywtayX9CNOwPw=="
+          "hash": "K/CC0kK54R5wL4e7R602Hw=="
         }
       },
       "is_incremental": false,
@@ -99,12 +63,6 @@
       },
       "processors": {
         "ConceptualDocumentProcessor": {
-          "can_incremental": false,
-          "incrementalPhase": "build",
-          "total_file_count": 2,
-          "skipped_file_count": 0
-        },
-        "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
           "total_file_count": 2,
