@@ -12,14 +12,24 @@ branches:
   except:
     - /tmp|temp/
 
+skip_commits:
+  files:
+  - .github/
+  - .gitattributes
+  - .gitignore
+  - LICENSE
+  - README.md
+  - CONTRIBUTING.md
+  - ISSUE_TEMPLATE.md
+  - CODE_OF_CONDUCT.md
+  - '**/*.DotSettings'
+
 environment:
-  #VSINSTALLDIR: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community"
-  #VisualStudioVersion: 16.0
   SONARQUBE_TOKEN:
     secure: MTBDDF4aTiFIZFcSrOBkcmtDQnZiHx7R+Zozs8FXmpEXHt0ckiPqET8o7vj6LMBN
   DocFXVersion: 2.58
   NUnitConsoleVersion: 3.10.0
-  OpenCoverVersion: 4.6.519
+  OpenCoverVersion: 4.7.922
   CoverallsVersion: 1.0.0
   COVERALLS_REPO_TOKEN:
     secure: v31ShF3jpWCFELwt8iDTmUiKNB/5wZWMqy1EsCK/8LnT73kMlPjiK0ZL1rqIMjeo
@@ -29,49 +39,8 @@ environment:
     secure: wcfqCHOmeRLZf/BX6u6qQSV89Q4jFs9fHNDgMpKAcqE=
 
 # Setup build version
-init:
-- ps: >-
-    "APPVEYOR_BUILD_ID: $env:APPVEYOR_BUILD_ID";
-    "APPVEYOR_BUILD_VERSION: $env:APPVEYOR_BUILD_VERSION";
-    "APPVEYOR_PULL_REQUEST_NUMBER: $env:APPVEYOR_PULL_REQUEST_NUMBER ";
-    
-    if ($env:APPVEYOR_REPO_TAG -eq "true")
-    {
-        $env:Build_Version = "$($env:APPVEYOR_REPO_TAG_NAME.Replace('v', ''))";
-        $env:Build_Assembly_Version = $env:Build_Version;
-    }
-    else
-    {
-        $env:Build_Version = "$($env:APPVEYOR_BUILD_VERSION)";
-        $env:Build_Assembly_Version = "$env:Build_Version" -replace "\-.*","";
-    }
-    
-    $env:IsFullIntegrationBuild = $true;
-    
-    $env:MyVar = $true;
-    $env:MyVar2 = $false;
-    if ($env:MyVar -eq $true)
-    {
-        "MyVar is true"; 
-    }
-    else
-    {
-        "MyVar is false";
-    }
-    if ($env:MyVar2 -eq $true)
-    {
-        "MyVar2 is true"; 
-    }
-    else
-    {
-        "MyVar2 is false";
-    }
-    
-    
-    "Build_Version: $env:Build_Version";
-    "Build_Assembly_Version: $env:Build_Assembly_Version";
-    "Integ build: $env:IsFullIntegrationBuild";
-
+install:
+  - ps: ./build/setupBuild.ps1
 
 # Assembly infos & csproj patching
 assembly_info:
@@ -103,26 +72,39 @@ matrix:
 
 # Build
 before_build:
-# SonarQube
-  - ps: dotnet tool install --tool-path tools dotnet-sonarscanner
-  - ps: $sonarscanner = (Resolve-Path "tools\dotnet-sonarscanner.exe").ToString()
 # NuGet restore
-  - nuget restore
+  - nuget restore -verbosity detailed
+# SonarQube
+  - ps: >-
+      if ($env:IsFullIntegrationBuild -eq $true)
+      {
+          dotnet tool install --tool-path tools dotnet-sonarscanner
+          $sonarScanner = (Resolve-Path "tools\dotnet-sonarscanner.exe").ToString()
+      }
+      
+      $sonarScanner;
 
 build:
-  verbosity: normal
+  verbosity: minimal
 
 build_script:
   - ps: >-
-      & $sonarscanner begin /k:"tests_project" /o:"kernelith-github" /d:sonar.host.url="https://sonarcloud.io" /d:"sonar.branch.name=$env:APPVEYOR_REPO_BRANCH" /d:sonar.cs.opencover.reportsPaths="coverage.xml" /d:sonar.login="$env:SONARQUBE_TOKEN" /d:sonar.coverage.exclusions=Annotations.cs
+      if ($env:IsFullIntegrationBuild -eq $true)
+      {
+          & $sonarScanner begin /k:"tests_project" /o:"kernelith-github" /d:sonar.host.url="https://sonarcloud.io" /d:"sonar.branch.name=$env:APPVEYOR_REPO_BRANCH" /d:sonar.cs.opencover.reportsPaths="coverage.xml" /d:sonar.login="$env:SONARQUBE_TOKEN"
+      }
   - msbuild
 
 before_test:
-# NuGet packages for coverage
-  - ps: nuget install NUnit.Console -Version $env:NUnitConsoleVersion -OutputDirectory tools
-  - ps: nuget install OpenCover -Version $env:OpenCoverVersion -OutputDirectory tools
-# Dot net tool for coverage
-  - ps: dotnet tool install --tool-path tools --version $env:CoverallsVersion coveralls.net
+# NuGet packages for test & coverage
+  - ps: >-
+      nuget install NUnit.Console -Version $env:NUnitConsoleVersion -OutputDirectory tools
+      
+      if ($env:IsFullIntegrationBuild -eq $true)
+      {
+          nuget install OpenCover -Version $env:OpenCoverVersion -OutputDirectory tools
+          dotnet tool install --tool-path tools --version $env:CoverallsVersion coveralls.net
+      }
 
 test_script:
   - ps: >-
@@ -137,6 +119,7 @@ test_script:
       # Directory.Parent.Parent.Parent = tests\TestProject.Tests
       
       $testAssemblies = (ls src\*.Tests\bin\$env:Configuration\net45\*Tests.dll | Where-Object { $_ -Match "net*" -and $_ -NotMatch "netcoreapp*" -and [System.IO.Path]::GetFileNameWithoutExtension($_.FullName) -Match $_.Directory.Parent.Parent.Parent.Name } | % FullName | sort-object -Unique);
+      
       $allTestsCompleted = $false;
       $opencover = (Resolve-Path "tools\OpenCover.*\tools\OpenCover.Console.exe").ToString();
       $coveralls = (Resolve-Path "tools\csmacnz.Coveralls.exe").ToString();
@@ -144,8 +127,9 @@ test_script:
       & $opencover -register:Path64 -filter:"+[*]* -[*.Test*]* -[*]JetBrains.Annotations*" -target:"$nunitConsole" -targetargs:"$testAssemblies --result=\`"TestResult.xml\`"" -returntargetcode -log:Warn -output:coverage.xml;
       $allTestsCompleted = $?;
       
+      & $sonarScanner end /d:"sonar.login=$env:SONARQUBE_TOKEN"
+      
       & $coveralls --opencover -i coverage.xml --repoToken $env:COVERALLS_REPO_TOKEN --useRelativePaths --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_BUILD_NUMBER --serviceName appveyor;
-      & $sonarScanner end /d:"sonar.login=$env:SONARQUBE_TOKEN";
       
       # Upload results to AppVeyor
       $wc = New-Object 'System.Net.WebClient';

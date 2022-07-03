@@ -61,14 +61,10 @@ if ($env:APPVEYOR_REPO_BRANCH -ne "master")
 }
 
 # Chocolatey DocFX
-cinst docfx --version $env:DocFXVersion
+cinst docfx --version $env:DocFXVersion -y
 
 git config --global core.autocrlf true
 git config --global core.eol lf
-
-git config --global credential.helper store
-
-Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:GITHUB_ACCESS_TOKEN):x-oauth-basic@github.com`n"
 
 git config --global user.email $env:GITHUB_EMAIL
 git config --global user.name "KeRNeLith"
@@ -106,6 +102,9 @@ if (-not [string]::IsNullOrEmpty($(git status --porcelain)))
     "Pushing the new documentation to the remote gh-pages branch..."
 
     git commit -m "Update generated documentation."
+
+    git remote set-url origin https://$($env:GITHUB_ACCESS_TOKEN)@github.com/KeRNeLith/TestAppVeroy.git
+
     # -q is to avoid git to output thing to stderr for no reason
     git push -q origin gh-pages
 
