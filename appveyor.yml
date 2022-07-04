@@ -1,5 +1,5 @@
 version: '0.0.{build}'
-image: Visual Studio 2019
+image: Visual Studio 2022
 
 # Setup
 nuget:
@@ -27,10 +27,10 @@ skip_commits:
 environment:
   SONARQUBE_TOKEN:
     secure: MTBDDF4aTiFIZFcSrOBkcmtDQnZiHx7R+Zozs8FXmpEXHt0ckiPqET8o7vj6LMBN
-  DocFXVersion: 2.58
-  NUnitConsoleVersion: 3.10.0
-  OpenCoverVersion: 4.7.922
-  CoverallsVersion: 1.0.0
+  DocFXVersion: 2.59.2
+  NUnitConsoleVersion: 3.15.2
+  OpenCoverVersion: 4.7.1221
+  CoverallsVersion: 4.0.0
   COVERALLS_REPO_TOKEN:
     secure: v31ShF3jpWCFELwt8iDTmUiKNB/5wZWMqy1EsCK/8LnT73kMlPjiK0ZL1rqIMjeo
   GITHUB_ACCESS_TOKEN:
