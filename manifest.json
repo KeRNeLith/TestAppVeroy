@@ -4,48 +4,12 @@
   "xrefmap": "xrefmap.yml",
   "files": [
     {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Tests.TestClass.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Tests.TestClass.html",
-          "hash": "U1Vl8a5smBUbJ3B7JeWrEW+wMJPsVw9AQ4dC1y6AP2Q="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Tests.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Tests.html",
-          "hash": "jmNl4/qvBE23KtacoFN5ROIfqCCRZVDzwqGnPrWT8pQ="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
       "type": "Conceptual",
       "source_relative_path": "api/index.md",
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "n5sLqRHcXnBTyV2fvrvoTglus45SNirTs72o8GZu8ac="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "Toc",
-      "source_relative_path": "api/toc.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/toc.html",
-          "hash": "MnOKJ5grPgf2J65PxNpbGjpCV+3iBqTyYueTN/HIEhc="
+          "hash": "TsH59b+KwWaz7cnMCaVtK5iAJDJwdpNAHksmrSSGmUk="
         }
       },
       "is_incremental": false,
@@ -80,7 +44,7 @@
       "output": {
         ".html": {
           "relative_path": "toc.html",
-          "hash": "DV+1mNfV09RKIzrGKDGBJwhjgXF2qFppnBoGvB2dxUU="
+          "hash": "c253ulK+v2vpZrJqSmRaY0chqlgmeq2rIH2+WhPvhDY="
         }
       },
       "is_incremental": false,
@@ -99,12 +63,6 @@
       },
       "processors": {
         "ConceptualDocumentProcessor": {
-          "can_incremental": false,
-          "incrementalPhase": "build",
-          "total_file_count": 2,
-          "skipped_file_count": 0
-        },
-        "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
           "total_file_count": 2,
