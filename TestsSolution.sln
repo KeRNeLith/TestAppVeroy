@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27428.2043
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestsProject", "src\TestsProject\TestsProject.csproj", "{E61310F6-B2F1-725E-30F4-D17C36748FC8}"
 EndProject
@@ -9,9 +9,6 @@ EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedProject1", "SharedProject1\SharedProject1.shproj", "{BBB8EFA2-80A5-4D62-9707-36902ABA4B1E}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		SharedProject1\SharedProject1.projitems*{bbb8efa2-80a5-4d62-9707-36902aba4b1e}*SharedItemsImports = 13
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -31,5 +28,9 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B71A0DD-07A5-47B4-AC47-141721DED612}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		SharedProject1\SharedProject1.projitems*{bbb8efa2-80a5-4d62-9707-36902aba4b1e}*SharedItemsImports = 13
+		SharedProject1\SharedProject1.projitems*{e61310f6-b2f1-725e-30f4-d17c36748fc8}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal
